@@ -5,6 +5,24 @@ from flask import Flask, render_template, url_for, flash, redirect
 # from forms import RegistrationForm, BlogForm
 import sqlite3
 
+posts = [
+  {
+      'username': 'James',
+      'title': 'How to Build a Data Science Portfolio',
+      'content': 'The best way to build a data science portfolio is to do a project.',
+  },
+  {
+      'username': 'Jane',
+      'title': 'Blockchain Could Unlock Vital Funding to Tackle Climate Change',
+      'content': 'Billions of dollars in promised funding is failing to reach the world’s poorest countries — but technologists have a fix in mind .....',
+  },
+    {
+    'username': 'Jack',
+    'title': 'Can Data Save the Great Barrier Reef?',
+    'content': 'Marine scientists are using technology to track the overall health of the reef.'
+    }
+]
+
 conn = sqlite3.connect('database.db')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
