@@ -1,0 +1,81 @@
+body {
+  font-family: "Arial", sans-serif;
+  font-size: 12pt;
+  line-height: 1.2;
+  background-color: #fafafa;
+  max-width: 80em;
+  margin: auto;
+  line-height: 1.4;
+}
+h2 {
+  color: teal;
+}
+h1 {
+  font-family: "Garamond", sans-serif;
+  text-align: center;
+  color: white;
+  padding: 0.75em 0;
+  margin: -8px;
+  background-color: teal;
+}
+#navbar {
+  width: 32.2em;
+  margin: 1em auto 0.5em auto;
+}
+#recipes li {
+  line-height: 1.2;
+}
+.colored-bold {
+  font-weight: bold;
+  color: teal;
+}
+ul li {
+  list-style-type: circle;
+  margin-left: -15px;
+  color: teal;
+}
+table {
+  text-align: center;
+}
+.reference {
+  font-size: 11pt;
+}
+img {
+  max-width: 500px;
+  max-height: 500px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.section {
+  margin: 0 -8px;
+  padding: 1em;
+  border-bottom: teal solid 0.1px;
+}
+a {
+  color: teal;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+.buttons a {
+  color: white;
+  background-color: teal;
+  border: teal solid 1px;
+  border-radius: 1px;
+  padding: 2px 25px;
+  text-align: center;
+  text-decoration: none;
+}
+.buttons a:hover {
+  color: teal;
+  background: white;
+}
+.back-to-top {
+  margin-top: 6px;
+  text-align: right;
+}
+.scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 570px;
+}
