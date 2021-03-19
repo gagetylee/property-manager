@@ -10,7 +10,7 @@ drop table if exists Office;
 drop table if exists Multifamily;
 
 
-
+/* Create table 'Landlord' */
 CREATE TABLE Landlord (
 landlordID    INTEGER NOT NULL,
 firstName     VARCHAR(50),
