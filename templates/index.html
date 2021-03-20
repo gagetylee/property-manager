@@ -17,11 +17,12 @@
             </tr>
          </table>
       </div>
-      <!-- {% block content %}  -->
-      {% for landlord in data %}
-      <h1>{{ landlord.name}}</h1>
+      {% block content %} {% for property in propertyData %}
 
-      {% endfor %}
-      <!-- {% endblock content %} -->
+      <section>
+         <p>Address: {{property.street}}</p>
+      </section>
+
+      {% endfor %} {% endblock content %}
    </body>
 </html>

@@ -42,6 +42,18 @@ def dict_factory(cursor, row):
     return d
 
 
+# @app.route("/")
+# # @app.route("/home")
+# def home():
+#     conn = sqlite3.connect('database.db')
+
+#     #Display all blogs from the 'blogs' table
+#     conn.row_factory = dict_factory
+#     c = conn.cursor()
+#     c.execute("SELECT * FROM Landlord")
+#     landlords = c.fetchall()
+#     return render_template('index.html', data=landlords)
+
 @app.route("/")
 # @app.route("/home")
 def home():
@@ -50,9 +62,9 @@ def home():
     #Display all blogs from the 'blogs' table
     conn.row_factory = dict_factory
     c = conn.cursor()
-    c.execute("SELECT * FROM Landlord")
-    landlords = c.fetchall()
-    return render_template('index.html', data=landlords)
+    c.execute("SELECT * FROM Property")
+    properties = c.fetchall()
+    return render_template('index.html', propertyData=properties)
 
 
 # @app.route("/register", methods=['GET', 'POST'])
