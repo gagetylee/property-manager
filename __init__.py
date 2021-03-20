@@ -23,6 +23,13 @@ posts = [
     }
 ]
 
+# landlords = [
+#     {
+#         'name': 'John',
+#         'id' : '1'
+#     }
+# ]
+
 conn = sqlite3.connect('database.db')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -36,16 +43,16 @@ def dict_factory(cursor, row):
 
 
 @app.route("/")
-@app.route("/home")
+# @app.route("/home")
 def home():
     conn = sqlite3.connect('database.db')
 
     #Display all blogs from the 'blogs' table
     conn.row_factory = dict_factory
     c = conn.cursor()
-    # c.execute("SELECT * FROM blogs")
-    posts = c.fetchall()
-    return render_template('index.html', posts=posts)
+    c.execute("SELECT * FROM Landlord")
+    landlords = c.fetchall()
+    return render_template('index.html', data=landlords)
 
 
 # @app.route("/register", methods=['GET', 'POST'])

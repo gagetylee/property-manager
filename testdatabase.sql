@@ -85,4 +85,12 @@ space		   INTEGER NOT NULL,
 PRIMARY KEY (propertyID),
 FOREIGN KEY (propertyID) REFERENCES Multifamily(propertyID)
 );
+
+
+INSERT INTO Landlord (landlordID, name) VALUES (1, "John Jackson");
+
+
+
+
+
 COMMIT;

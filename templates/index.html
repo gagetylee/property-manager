@@ -8,14 +8,20 @@
       <title>Document</title>
    </head>
    <body>
-       <h1 id="header">Property Management Tool</h1>
-       <div id=navbar class="buttons">
+      <h1 id="header">Property Management Tool</h1>
+      <div id="navbar" class="buttons">
          <table>
-           <tr>
-             <td><a href="">Home</a></td>
-             <td><a href="">Query</a></td>
-           </tr>
+            <tr>
+               <td><a href="">Home</a></td>
+               <td><a href="">Query</a></td>
+            </tr>
          </table>
-       </div>
+      </div>
+      <!-- {% block content %}  -->
+      {% for landlord in data %}
+      <h1>{{ landlord.name}}</h1>
+
+      {% endfor %}
+      <!-- {% endblock content %} -->
    </body>
 </html>
