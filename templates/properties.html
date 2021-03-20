@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+{% block content %}
+<article>
+    <h3>Properties</h3>
+    {% for property in data %}
+    <p>Address: {{property.street}}</p>
+    {% endfor %}
+</article>
+{% endblock %}

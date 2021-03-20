@@ -1,40 +1,10 @@
-### Example inspired by Tutorial at https://www.youtube.com/watch?v=MwZwr5Tvyxo&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH
-### However the actual example uses sqlalchemy which uses Object Relational Mapper, which are not covered in this course. I have instead used natural sQL queries for this demo. 
-
-from flask import Flask, render_template, url_for, flash, redirect
-# from forms import RegistrationForm, BlogForm
+from flask import Flask, request, render_template, url_for, flash, redirect
 import sqlite3
-
-posts = [
-  {
-      'username': 'James',
-      'title': 'How to Build a Data Science Portfolio',
-      'content': 'The best way to build a data science portfolio is to do a project.',
-  },
-  {
-      'username': 'Jane',
-      'title': 'Blockchain Could Unlock Vital Funding to Tackle Climate Change',
-      'content': 'Billions of dollars in promised funding is failing to reach the world’s poorest countries — but technologists have a fix in mind .....',
-  },
-    {
-    'username': 'Jack',
-    'title': 'Can Data Save the Great Barrier Reef?',
-    'content': 'Marine scientists are using technology to track the overall health of the reef.'
-    }
-]
-
-# landlords = [
-#     {
-#         'name': 'John',
-#         'id' : '1'
-#     }
-# ]
 
 conn = sqlite3.connect('database.db')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
-#Turn the results from the database into a dictionary
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
@@ -42,29 +12,31 @@ def dict_factory(cursor, row):
     return d
 
 
-# @app.route("/")
-# # @app.route("/home")
-# def home():
-#     conn = sqlite3.connect('database.db')
-
-#     #Display all blogs from the 'blogs' table
-#     conn.row_factory = dict_factory
-#     c = conn.cursor()
-#     c.execute("SELECT * FROM Landlord")
-#     landlords = c.fetchall()
-#     return render_template('index.html', data=landlords)
-
 @app.route("/")
-# @app.route("/home")
+@app.route("/home")
 def home():
+    landlords()
+    return render_template('index.html')
+    
+@app.route("/landlords")
+def landlords():
     conn = sqlite3.connect('database.db')
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+    c.execute("SELECT * FROM Landlord")
+    landlords = c.fetchall()
 
-    #Display all blogs from the 'blogs' table
+    return render_template('landlords.html', data=landlords)
+    
+@app.route("/properties")
+def properties():
+    conn = sqlite3.connect('database.db')
     conn.row_factory = dict_factory
     c = conn.cursor()
     c.execute("SELECT * FROM Property")
     properties = c.fetchall()
-    return render_template('index.html', propertyData=properties)
+
+    return render_template('properties.html', data=properties)
 
 
 # @app.route("/register", methods=['GET', 'POST'])

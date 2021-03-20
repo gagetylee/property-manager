@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+{% block content %}
+<article>
+    <h3>Landlords</h3>
+    {% for landlord in data %}
+    <p>{{landlord.landlordID}}. {{landlord.firstName}} {{landlord.lastName}} </p>
+    {% endfor %}
+</article>
+{% endblock %}
