@@ -15,8 +15,7 @@ def dict_factory(cursor, row):
 @app.route("/")
 @app.route("/home")
 def home():
-    landlords()
-    return render_template('index.html')
+    return render_template('home.html')
     
 @app.route("/landlords")
 def landlords():

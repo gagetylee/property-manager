@@ -1,88 +1,116 @@
+html {
+    background: url('background.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+#banner {
+    position: relative;
+    font-family: "Garamond", sans-serif;
+    text-align: center;
+    color: white;
+    margin: -20px -8px;
+    padding: 3em 0;
+/*    background: rgba(0,21,43,0);*/
+/*    background-size: cover;*/
+}
+#navleft {
+    position: relative;
+    text-align: left;
+    margin: -15px -8px;
+    padding: 0.5em;
+    background-size: cover;
+    background-color: rgb(16,18,18);
+  
+}
+#navleft ul {
+    display: inline-block;
+}
+#navright {
+    position: absolute;
+    text-align: right;
+    margin-top: -21px;
+    right: -8px;
+    padding: 0.5em;
+  
+}
+#navright ul {
+    display: inline-block;
+}
+#overlay {
+    position: absolute;
+    top: -6px;
+    left: -8px;
+    z-index: -1;
+    background-color: rgba(0,0,0,0.7);
+    height: 100%;
+    width: 100%;
+    padding: 20em 8px;
+}
+#content {
+    position: relative;
+    overflow: hidden;
+    margin: 12px -8px;
+    padding: 1em;
+    text-align: left;
+    background-color: rgba(16,18,18,0.75);
+    background-size: cover;
+}
 body {
-  font-family: "Arial", sans-serif;
-  font-size: 12pt;
-  line-height: 1.2;
-  max-width: 98.9%;
-  background-color: #fafafa;
-  margin: auto;
-  line-height: 1.4;
+    position: relative;
+    z-index: -2;
+    color: white;
+    font-family: "Arial", sans-serif;
+    font-size: 12pt;
+    line-height: 1.2;
+    max-width: 98.9%;
 }
 h1 {
-  font-family: "Garamond", sans-serif;
-  text-align: center;
-  color: white;
-  padding: 0.75em 0;
-  margin: -8px;
-  background-color: #243349;
+    display: in-line;
+    color: white;
 }
 h2 {
-  color: #243349;
+    color: rgb(4,22,51);
 }
 h3 {
-  color: #243349;
+    color: rgb(151,171,177);
 }
 ul li {
-  list-style-type: circle;
-  margin-left: -15px;
-  color: #243349;
-}
-table {
-  text-align: center;
-}
-img {
-  max-width: 350px;
-  max-height: 350px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-figure {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
+    list-style-type: circle;
+    margin-left: -15px;
+    color: #243349;
 }
 a {
-  color: #243349;
-  text-decoration: none;
+    color: #243349;
+    text-decoration: none;
 }
 a:hover {
-  text-decoration: underline;
-}
-#navbar {
-  width: 23em;
-  margin: 1em auto -1em auto;
-}
-#reference {
-  padding-left: 7px;
-  font-size: 11pt;
+    text-decoration: underline;
 }
 .buttons a {
-  color: white;
-  background-color: #243349;
-  border: teal solid 1px;
-  border-radius: 1px;
-  padding: 2px 25px;
-  text-align: center;
-  text-decoration: none;
+    color: white;
+    background-color: rgb(16,18,18);
+    border: none;
+    margin: 20px -3px;
+    border-radius: 0px;
+    padding: 0.5em 1.5em;
+    text-align: center;
+    text-decoration: none;
 }
 .buttons a:hover {
-  color: #243349;
-  background: white;
+    color: #243349;
+    background: white;
 }
-.back-to-top {
-  margin-top: 6px;
-  text-align: right;
+td, th {
+    padding: 0.1em 1em;
 }
-.scroll {
-  overflow-y: auto;
-  overflow-x: hidden;
-  max-height: 550px;
-}
-.section {
-  margin: 0 -8px;
-  padding: 1em;
-  border-bottom: #243349 solid 0.1px;
-}
-.title {
-  margin: 0 -8px;
-  padding: 0 0 5px 15px;
-  border-bottom: #243349 solid 0.1px;
+#bottom {
+    position: relative;
+    margin: -12px -8px;
+    text-align: right;
+    font-size: 0.7em;
+    background-color: rgb(16,18,18);
+    background-size: cover;
+    padding: 1px 8px;
 }
