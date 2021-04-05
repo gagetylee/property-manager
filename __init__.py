@@ -11,11 +11,25 @@ def dict_factory(cursor, row):
         d[col[0]] = row[idx]
     return d
 
-
 @app.route("/")
-@app.route("/home")
+@app.route("/login")
+def login():
+    return render_template('log-in.html')
+    
+user_storage = {'user':'pass','user2':'pass2'}
+    
+@app.route("/home", methods=['POST','GET'])
 def home():
-    return render_template('home.html')
+    username = request.form['username']
+    pwd = request.form['pwd']
+    
+    if username not in user_storage:
+        return render_template('log-in.html', info='invalid user')
+    else:
+        if user_storage[username] != pwd:
+            return render_template('log-in.html', info='invalid password')
+        else:
+            return render_template('home.html', user=username)
     
 @app.route("/landlords")
 def landlords():
