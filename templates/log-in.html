@@ -5,8 +5,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
-        <script src="{{ url_for('static', filename='jquery-3.6.0.js') }}"></script>
-        <script src="{{ url_for('static', filename='logic.js') }}"></script>
         <title>Property Manager - Log-in</title>
     </head>
     <body>
@@ -14,7 +12,7 @@
             <h1 id="banner">Property Manager</h1>
             <h3 id="banner-backing">PM</h3>
             <div class="separator"></div>
-            <form class="login-form" action="/home" method="post">
+            <form class="login-form" action=login method="post">
                 <h3>Welcome</h2>
                 <input type="text" placeholder="User" name='username'><br></br>
                 <input type="password" placeholder="Password" name='pwd'><br></br>

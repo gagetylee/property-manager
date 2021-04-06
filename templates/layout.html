@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-        <script src="{{ url_for('static', filename='jquery-3.6.0.js') }}"></script>
-        <script src="{{ url_for('static', filename='logic.js') }}"></script>
+<!--        <script src="{{ url_for('static', filename='jquery-3.6.0.js') }}"></script>-->
+<!--        <script src="{{ url_for('static', filename='logic.js') }}"></script>-->
         <title>Property Manager</title>
     </head>
     <body>
@@ -17,7 +17,7 @@
             <a href=properties>Properties</a>
         </div>
         <div id="navright" class="buttons">
-            <a id="options">&#8801;</a>
+            <a href=logout id="options">Logout</a>
         </div>
         <div id="content">
             {% block content %}{% endblock %}
