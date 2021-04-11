@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-        <script src="{{ url_for('static', filename='jquery-3.6.0.js') }}"></script>
-        <script src="{{ url_for('static', filename='logic.js') }}"></script>
-        <title>Property Manager</title>
-    </head>
-    <body>
-        <h1 id="banner">Property Manager</h1>
-        <div id="navleft" class="buttons">
-            <a href=home>Home</a>
-            <a href=landlords>Landlords</a>
-            <a href=properties>Properties</a>
-        </div>
-        <div id="navright" class="buttons">
-            <a id="options">&#8801;</a>
-        </div>
-        <div id="content">
-            {% block content %}{% endblock %}
-        </div>
-        <div id="bottom">
-        <p>Created by Reid Gendron, Gage Tylee, Wan Ying Chan, and Brian Cai.</p>
-        </div>
-        <div id="overlay"></div>
-    </body>
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta
+         name="viewport"
+         content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
+      <link
+         rel="stylesheet"
+         type="text/css"
+         href="{{ url_for('static', filename='style.css') }}"
+      />
+      <script src="{{ url_for('static', filename='jquery-3.6.0.js') }}"></script>
+      <script src="{{ url_for('static', filename='logic.js') }}"></script>
+      <script
+         type="text/javascript"
+         src="https://www.gstatic.com/charts/loader.js"
+      ></script>
+
+      <title>Property Manager</title>
+   </head>
+   <body>
+      <h1 id="banner">Property Manager</h1>
+      <div id="navleft" class="buttons">
+         <a href="home">Home</a>
+         <a href="landlords">Landlords</a>
+         <a href="properties">Properties</a>
+      </div>
+      <div id="navright" class="buttons">
+         <a id="options">&#8801;</a>
+      </div>
+      <div id="content">{% block content %}{% endblock %}</div>
+      <div id="bottom">
+         <p>
+            Created by Reid Gendron, Gage Tylee, Wan Ying Chan, and Brian Cai.
+         </p>
+      </div>
+      <div id="overlay"></div>
+   </body>
 </html>

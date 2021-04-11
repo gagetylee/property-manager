@@ -15,7 +15,24 @@ def dict_factory(cursor, row):
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html')
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+
+    # Get user, currently set to default id: 1
+    userID = 1
+
+    c.execute("SELECT * FROM Landlord WHERE landlordID = ?", (userID, ))
+    landlord = c.fetchone();
+    # Get monthly income for user
+
+    c.execute("SELECT SUM(monthlyIncome) as total FROM Property WHERE landlordID = ?", (userID,))
+    totalIncome = c.fetchone()
+
+    # Get monthly outcome for user
+    c.execute("SELECT * FROM MonthlyExpenses")
+    totalOutcome = c.fetchone()
+    return render_template('home.html', user = landlord, income = totalIncome, outcome = totalOutcome)
     
 @app.route("/landlords")
 def landlords():

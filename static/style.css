@@ -1,116 +1,176 @@
 html {
-    background: url('background.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+   background: url('background.jpg') no-repeat center center fixed;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
 }
 #banner {
-    position: relative;
-    font-family: "Garamond", sans-serif;
-    text-align: center;
-    color: white;
-    margin: -20px -8px;
-    padding: 3em 0;
-/*    background: rgba(0,21,43,0);*/
-/*    background-size: cover;*/
+   position: relative;
+   font-family: 'Garamond', sans-serif;
+   text-align: center;
+   color: white;
+   margin: -20px -8px;
+   padding: 3em 0;
+   /*    background: rgba(0,21,43,0);*/
+   /*    background-size: cover;*/
 }
 #navleft {
-    position: relative;
-    text-align: left;
-    margin: -15px -8px;
-    padding: 0.5em;
-    background-size: cover;
-    background-color: rgb(16,18,18);
-  
+   position: relative;
+   text-align: left;
+   margin: -15px -8px;
+   padding: 0.5em;
+   background-size: cover;
+   background-color: rgb(16, 18, 18);
 }
 #navleft ul {
-    display: inline-block;
+   display: inline-block;
 }
 #navright {
-    position: absolute;
-    text-align: right;
-    margin-top: -21px;
-    right: -8px;
-    padding: 0.5em;
-  
+   position: absolute;
+   text-align: right;
+   margin-top: -21px;
+   right: -8px;
+   padding: 0.5em;
 }
 #navright ul {
-    display: inline-block;
+   display: inline-block;
 }
 #overlay {
-    position: absolute;
-    top: -6px;
-    left: -8px;
-    z-index: -1;
-    background-color: rgba(0,0,0,0.7);
-    height: 100%;
-    width: 100%;
-    padding: 20em 8px;
+   position: absolute;
+   top: -6px;
+   left: -8px;
+   z-index: -1;
+   background-color: rgba(0, 0, 0, 0.7);
+   height: 100%;
+   width: 100%;
+   padding: 0 13px;
 }
 #content {
-    position: relative;
-    overflow: hidden;
-    margin: 12px -8px;
-    padding: 1em;
-    text-align: left;
-    background-color: rgba(16,18,18,0.75);
-    background-size: cover;
+   position: relative;
+   overflow: hidden;
+   margin: 12px -8px;
+   padding: 1em;
+   text-align: left;
+   background-color: rgba(16, 18, 18, 0.75);
+   background-size: cover;
 }
 body {
-    position: relative;
-    z-index: -2;
-    color: white;
-    font-family: "Arial", sans-serif;
-    font-size: 12pt;
-    line-height: 1.2;
-    max-width: 98.9%;
+   position: relative;
+   z-index: -2;
+   color: white;
+   font-family: 'Arial', sans-serif;
+   font-size: 12pt;
+   line-height: 1.2;
+   max-width: 98.9%;
 }
+
 h1 {
-    display: in-line;
-    color: white;
+   display: in-line;
+   color: white;
 }
 h2 {
-    color: rgb(4,22,51);
+   color: white;
 }
 h3 {
-    color: rgb(151,171,177);
+   color: rgb(151, 171, 177);
 }
+
 ul li {
-    list-style-type: circle;
-    margin-left: -15px;
-    color: #243349;
+   list-style-type: circle;
+   margin-left: -15px;
+   color: #243349;
 }
 a {
-    color: #243349;
-    text-decoration: none;
+   color: #243349;
+   text-decoration: none;
 }
 a:hover {
-    text-decoration: underline;
+   text-decoration: underline;
 }
 .buttons a {
-    color: white;
-    background-color: rgb(16,18,18);
-    border: none;
-    margin: 20px -3px;
-    border-radius: 0px;
-    padding: 0.5em 1.5em;
-    text-align: center;
-    text-decoration: none;
+   color: white;
+   background-color: rgb(16, 18, 18);
+   border: none;
+   margin: 20px -3px;
+   border-radius: 0px;
+   padding: 0.5em 1.5em;
+   text-align: center;
+   text-decoration: none;
 }
 .buttons a:hover {
-    color: #243349;
-    background: white;
+   color: #243349;
+   background: white;
 }
-td, th {
-    padding: 0.1em 1em;
+td,
+th {
+   padding: 0.1em 1em;
 }
+
 #bottom {
-    position: relative;
-    margin: -12px -8px;
-    text-align: right;
-    font-size: 0.7em;
-    background-color: rgb(16,18,18);
-    background-size: cover;
-    padding: 1px 8px;
+   position: relative;
+   margin: -12px -8px;
+   text-align: right;
+   font-size: 0.7em;
+   background-color: rgb(16, 18, 18);
+   background-size: cover;
+   padding: 1px 8px;
+}
+
+#wrapper {
+   max-width: 1600px;
+   margin: auto;
+}
+
+.row {
+   display: flex;
+   width: 100%;
+}
+
+.row h2 {
+   color: white;
+   text-align: center;
+   margin-bottom: 5px;
+}
+
+.col {
+   flex: 50%;
+}
+.left {
+   margin: 0 5px 0 0;
+}
+.right {
+   margin: 0 0 0 5px;
+}
+
+.tile {
+   background-color: #1f1f21;
+   text-align: center;
+   margin: auto;
+   padding: 10px 0;
+}
+
+.tile h2 {
+   color: white;
+}
+
+.amt {
+   color: white;
+   font-size: 2.5em;
+}
+
+#expense-breakdown {
+   position: relative;
+   width: 100%;
+   padding-top: 50px;
+}
+#expense-breakdown h2 {
+   text-align: center;
+}
+
+#donutchart {
+   padding-top: 0px;
+   padding-top: 30px;
+   width: fit-content;
+   margin: auto;
 }

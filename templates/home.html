@@ -1,7 +1,61 @@
-{% extends "layout.html" %}
-{% block content %}
-<article>
-    <h3>Welcome</h3>
-    <p>This application is a utilizable management tool to track monthly income/expenses of different properties, as well as general information about the property, and current tenants. The application user will be able to input new properties and any tenants renting those properties, delete these tenants and properties, search existing properties or search which properties are rented by any specific tenant, and update any information on a specific property or tenant.</p>
-</article>
+{% extends "layout.html" %} {% block content %}
+
+<!-- ASSUMING LANDLORD LOGGED IN HAS ID 1 -->
+<script type="text/javascript">
+   google.charts.load('current', { packages: ['corechart'] });
+   google.charts.setOnLoadCallback(drawChart);
+   function drawChart() {
+      var propTax = '{{outcome.propertyTax}}';
+      var maintenence = '{{outcome.MaintNRepairs}}';
+      var utility = '{{outcome.utilityBill}}';
+      console.log(maintenence);
+      var data = google.visualization.arrayToDataTable([
+         ['Task', 'Hours per Day'],
+         ['Property Tax', parseFloat(propTax)],
+         ['Maintenence', parseFloat(maintenence)],
+         ['Utilites', parseFloat(utility)],
+      ]);
+
+      var options = {
+         title: 'My Daily Activities',
+         pieHole: 0.6,
+         backgroundColor: '#000000',
+         backgroundColor: { fill: 'transparent' },
+         legend: { position: 'bottom', textStyle: { color: 'white' } },
+         chartArea: { left: 0, top: 0, right: 0 },
+         colors: ['#F7464A', '#46BFBD', '#FDB45C'],
+      };
+
+      var chart = new google.visualization.PieChart(
+         document.getElementById('donutchart')
+      );
+      chart.draw(data, options);
+   }
+</script>
+<div id="wrapper">
+   <article>
+      <h3>Welcome, {{user.firstName + ' ' + user.lastName}}</h3>
+   </article>
+   <div class="row">
+      <div class="col left">
+         <h2>Total Income</h2>
+         <div class="tile">
+            <h4 class="amt">${{ income.total }}</h4>
+         </div>
+      </div>
+      <div class="col right">
+         <h2>Amount Owed</h2>
+         <div class="tile">
+            <h4 class="amt">${{ outcome.propertyTax }}</h4>
+         </div>
+      </div>
+   </div>
+   <div id="row expense-breakdown">
+      <h2>Expense Breakdown</h2>
+      <div id="donutchart" style="height: 500px"></div>
+      <ul>
+         <li>Property Tax:</li>
+      </ul>
+   </div>
+</div>
 {% endblock %}
