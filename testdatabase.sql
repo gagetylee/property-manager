@@ -39,20 +39,21 @@ propertyTax	DECIMAL(10,2),
 MaintNRepairs	DECIMAL(10,2),
 
 PRIMARY KEY (propertyID, date),
-FOREIGN KEY (propertyID) REFERENCES Property(propertyID)
+FOREIGN KEY (propertyID) REFERENCES Property(propertyID),
 FOREIGN KEY (landID) REFERENCES Landlord(landlordID)
 );
 
 CREATE TABLE Tenant (
 tenantID		   INTEGER,
-monthlyRent	   DECIMAL(10,2),
 
 PRIMARY KEY (tenantID)
 );
+
 CREATE TABLE Individual (
 tenantID	   INTEGER NOT NULL,
 firstName	VARCHAR(50) NOT NULL,
 lastName	   VARCHAR(50) NOT NULL,
+monthlyRent	   DECIMAL(10,2),
 
 PRIMARY KEY (tenantID),
 FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID)
@@ -60,6 +61,7 @@ FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID)
 CREATE TABLE Company (
 tenantID		INTEGER NOT NULL,
 companyName	VARCHAR(50) NOT NULL,
+monthlyRent	   DECIMAL(10,2),
 
 PRIMARY KEY (tenantID),
 FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID)
@@ -113,49 +115,49 @@ INSERT INTO Landlord (firstName, lastName) VALUES ('Thomas','Clark');
 
 -- INSERT PROPERTIES --
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('British Columbia','850  Haaglund Rd','V0H1M0','123456','5500','1000','2000','1');
+VALUES ('British Columbia','850  Haaglund Rd','V0H1M0','1234.56','5500','1000','2000','1');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Saskatchewan','1187  Lillooet Street','S6V1B3','100000000','10000','3400','2021','1');
+VALUES ('Saskatchewan','1187  Lillooet Street','S6V1B3','1000000.00','10000','3400','2021','1');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Ontario','1649  Sheppard Ave','M1S1T4','1500345','7234','5500','2021','2');
+VALUES ('Ontario','1649  Sheppard Ave','M1S1T4','15003.45','7234','5500','2021','2');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Quebec','3995  rue Boulay','J0H1Y0','350000','3000','1500','1987','3');
+VALUES ('Quebec','3995  rue Boulay','J0H1Y0','3500.00','3000','1500','1987','3');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Ontario','2934  Balmy Beach Road','N4K2N7','1233004','3599','3500','2001','2');
+VALUES ('Ontario','2934  Balmy Beach Road','N4K2N7','12330.04','3599','3500','2001','2');
 
  INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Vancouver','106 588 45th Ave','V5C4G2','2034572','5599','6000','2019','1');
+VALUES ('Vancouver','106 588 45th Ave','V5C4G2','20345.72','5599','6000','2019','1');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Vancouver','563 Union St','V6A2B7','1333022','3599','3500','1999','6');
+VALUES ('Vancouver','563 Union St','V6A2B7','13330.22','3599','3500','1999','6');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Vancouver','3008 8th Ave','V6A2A6','1999999','5900','6000','2017','1');
+VALUES ('Vancouver','3008 8th Ave','V6A2A6','19999.99','5900','6000','2017','1');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Vancouver','1410 Tolmie St','V6R4B3','1005000','5000','4599','2018','2');
+VALUES ('Vancouver','1410 Tolmie St','V6R4B3','10050.00','5000','4599','2018','2');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Vancouver','59080 Battison St','V5R4M8','1233004','5000','5000','2001','100002');
+VALUES ('Vancouver','59080 Battison St','V5R4M8','12330.04','5000','5000','2001','100002');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Vancouver','3308 Ash St','V5C3E3','1009999','7999','5500','2001','100004');
+VALUES ('Vancouver','3308 Ash St','V5C3E3','10099.99','7999','5500','2001','100004');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Ontario','1847 Ross Street','G4T7W2','90333212','3420','2591','1989','100004');
+VALUES ('Ontario','1847 Ross Street','G4T7W2','903332.12','3420','2591','1989','100004');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Saskatchewan','2431 Main St','V4K5K7','2321214','3192','3310','2011','100004');
+VALUES ('Saskatchewan','2431 Main St','V4K5K7','23212.14','3192','3310','2011','100004');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Alberta','9096 Algoma St Road','P7A4T3','1233038','2345','2510','1999','100004');
+VALUES ('Alberta','9096 Algoma St Road','P7A4T3','12330.38','2345','2510','1999','100004');
 
 INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) 
-VALUES ('Quebec','4610  rue Saint-Antoine','J4K8L7','3290533','3500','3502','1974','100004');
+VALUES ('Quebec','4610  rue Saint-Antoine','J4K8L7','32905.33','3500','3502','1974','100004');
 
 
 
@@ -188,49 +190,44 @@ VALUES('5', "2020-12-03", '2','32.11', '399.74', '25.26');
 
 
 
-INSERT INTO Tenant (monthlyRent)
-VALUES('1050.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1150.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1250.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1350.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1450.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1550.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1650.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1750.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1850.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1950.50');
 
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('1','Bob','Miller', '1050.50');
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('2','James','Brown','1150.50');
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('3','Kelly','Davis', '1250.50');
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('4','Karen','Jones', '1350.50');
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('5','Mary','Wilson', '1450.50');
 
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('1','Bob','Miller');
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('2','James','Brown');
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('3','Kelly','Davis');
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('4','Karen','Jones');
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('5','Mary','Wilson');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('6', 'West Tech', '1550.50');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('7', 'East Tech', '1650.50');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('8', 'North Tech', '1750.50');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('9', 'South Tech', '1850.50');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('10', 'Mid Tech', '1950.50');
 
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('6', 'West Tech');
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('7', 'East Tech');
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('8', 'North Tech');
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('9', 'South Tech');
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('10', 'Mid Tech');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('1', '1');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('1', '2');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('2', '3');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('1', '4');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('2', '5');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('2', '6');
+
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('3', '7');
 
 
 
@@ -268,10 +265,20 @@ INSERT INTO Spaces (propertyID, space) VALUES ('13', '3');
 INSERT INTO Spaces (propertyID, space) VALUES ('14', '5');
 INSERT INTO Spaces (propertyID, space) VALUES ('15', '8');
 
+CREATE VIEW TenantTemp AS
+SELECT tenantID, name, monthlyRent
+FROM (
+   SELECT tenantID, name, monthlyRent FROM (
+	   SELECT tenantID, companyName as name, monthlyRent
+	   FROM Company
+	   UNION
+	   SELECT tenantID, (firstName||' '||lastName) as name, monthlyRent
+	   FROM Individual
+   )
+)
 
 
 
 
 
 
-COMMIT;
