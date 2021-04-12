@@ -15,7 +15,7 @@ def dict_factory(cursor, row):
 @app.route("/login", methods=['POST','GET'])
 def login():
     if request.method == "POST":
-        # Grab "users" and "passwords" from db
+        # Grab "users" and "passwords" from database
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
@@ -33,20 +33,22 @@ def login():
         pwd = request.form['pwd']
         
         # Check form data for a user-password combination match
-        if username not in users:
-            return render_template('log-in.html', info='invalid user')
-        else:
-            if users[username] != pwd:
-                return render_template('log-in.html', info='invalid password')
-            else:
+        if username in users:
+            if users[username] == pwd:
                 session['user'] = username
+                session['id'] = users[username]
                 return render_template('home.html', user=username)
+            else:
+                return render_template('log-in.html', info='invalid password')
+        else:
+            return render_template('log-in.html', info='invalid user')
     else:
         return render_template('log-in.html')
     
 @app.route("/logout")
 def logout():
     session.pop('user', None)
+    session.pop('id', None)
     return redirect(url_for('login'))
     
 @app.route("/home")
@@ -57,16 +59,16 @@ def home():
     else:
         return redirect(url_for('login'))
             
-@app.route("/landlords")
-def landlords():
+@app.route("/info")
+def info():
     if 'user' in session:
         username = session['user']
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
-        c.execute("SELECT * FROM Landlord")
+        c.execute("SELECT * FROM Landlord WHERE firstName=='"+ username +"'")
         landlords = c.fetchall()
-        return render_template('landlords.html', data=landlords)
+        return render_template('info.html', data=landlords)
     else:
         return redirect(url_for('login'))
     
@@ -74,10 +76,12 @@ def landlords():
 def properties():
     if 'user' in session:
         username = session['user']
+        id = session['id']
+        
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
-        c.execute("SELECT * FROM Property")
+        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
         properties = c.fetchall()
         return render_template('properties.html', data=properties)
     else:
