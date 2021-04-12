@@ -39,20 +39,21 @@ propertyTax	DECIMAL(10,2),
 MaintNRepairs	DECIMAL(10,2),
 
 PRIMARY KEY (propertyID, date),
-FOREIGN KEY (propertyID) REFERENCES Property(propertyID)
+FOREIGN KEY (propertyID) REFERENCES Property(propertyID),
 FOREIGN KEY (landID) REFERENCES Landlord(landlordID)
 );
 
 CREATE TABLE Tenant (
 tenantID		   INTEGER,
-monthlyRent	   DECIMAL(10,2),
 
 PRIMARY KEY (tenantID)
 );
+
 CREATE TABLE Individual (
 tenantID	   INTEGER NOT NULL,
 firstName	VARCHAR(50) NOT NULL,
 lastName	   VARCHAR(50) NOT NULL,
+monthlyRent	   DECIMAL(10,2),
 
 PRIMARY KEY (tenantID),
 FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID)
@@ -60,6 +61,7 @@ FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID)
 CREATE TABLE Company (
 tenantID		INTEGER NOT NULL,
 companyName	VARCHAR(50) NOT NULL,
+monthlyRent	   DECIMAL(10,2),
 
 PRIMARY KEY (tenantID),
 FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID)
@@ -188,49 +190,44 @@ VALUES('5', "2020-12-03", '2','32.11', '399.74', '25.26');
 
 
 
-INSERT INTO Tenant (monthlyRent)
-VALUES('1050.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1150.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1250.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1350.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1450.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1550.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1650.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1750.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1850.50');
-INSERT INTO Tenant (monthlyRent)
-VALUES('1950.50');
 
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('1','Bob','Miller', '1050.50');
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('2','James','Brown','1150.50');
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('3','Kelly','Davis', '1250.50');
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('4','Karen','Jones', '1350.50');
+INSERT INTO Individual (tenantID, FirstName, LastName, monthlyRent)
+VALUES('5','Mary','Wilson', '1450.50');
 
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('1','Bob','Miller');
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('2','James','Brown');
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('3','Kelly','Davis');
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('4','Karen','Jones');
-INSERT INTO Individual (tenantID, FirstName, LastName)
-VALUES('5','Mary','Wilson');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('6', 'West Tech', '1550.50');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('7', 'East Tech', '1650.50');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('8', 'North Tech', '1750.50');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('9', 'South Tech', '1850.50');
+INSERT INTO Company (tenantID, CompanyName, monthlyRent)
+VALUES('10', 'Mid Tech', '1950.50');
 
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('6', 'West Tech');
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('7', 'East Tech');
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('8', 'North Tech');
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('9', 'South Tech');
-INSERT INTO Company (tenantID, CompanyName)
-VALUES('10', 'Mid Tech');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('1', '1');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('1', '2');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('2', '3');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('1', '4');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('2', '5');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('2', '6');
+
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('3', '7');
 
 
 
@@ -268,10 +265,20 @@ INSERT INTO Spaces (propertyID, space) VALUES ('13', '3');
 INSERT INTO Spaces (propertyID, space) VALUES ('14', '5');
 INSERT INTO Spaces (propertyID, space) VALUES ('15', '8');
 
+CREATE VIEW TenantTemp AS
+SELECT tenantID, name, monthlyRent
+FROM (
+   SELECT tenantID, name, monthlyRent FROM (
+	   SELECT tenantID, companyName as name, monthlyRent
+	   FROM Company
+	   UNION
+	   SELECT tenantID, (firstName||' '||lastName) as name, monthlyRent
+	   FROM Individual
+   )
+)
 
 
 
 
 
 
-COMMIT;

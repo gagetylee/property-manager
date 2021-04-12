@@ -118,7 +118,7 @@ th {
 }
 
 #wrapper {
-   max-width: 1600px;
+   max-width: 1200px;
    margin: auto;
 }
 
@@ -168,9 +168,39 @@ th {
    text-align: center;
 }
 
-#donutchart {
+.donut {
    padding-top: 0px;
    padding-top: 30px;
    width: fit-content;
    margin: auto;
+}
+
+#property-breakdown {
+   max-width: 1200px;
+   margin: auto;
+}
+
+.rentInfo article {
+   padding: 20px;
+}
+
+.rentInfo ul {
+   list-style-type: none;
+   text-align: left;
+   margin: auto;
+   width: 70%;
+   max-width: 600px;
+   padding: 0;
+   font-size: 1.2em;
+}
+
+.rentInfo li {
+   list-style-type: none;
+   padding-bottom: 5px;
+   color: white;
+}
+
+.rentInfo li span {
+   text-align: right;
+   float: right;
 }

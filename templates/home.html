@@ -1,37 +1,49 @@
 {% extends "layout.html" %} {% block content %}
 
 <!-- ASSUMING LANDLORD LOGGED IN HAS ID 1 -->
-<script type="text/javascript">
+{% block javascript %}
+<script>
    google.charts.load('current', { packages: ['corechart'] });
    google.charts.setOnLoadCallback(drawChart);
    function drawChart() {
       var propTax = '{{outcome.propertyTax}}';
       var maintenence = '{{outcome.MaintNRepairs}}';
       var utility = '{{outcome.utilityBill}}';
-      console.log(maintenence);
-      var data = google.visualization.arrayToDataTable([
-         ['Task', 'Hours per Day'],
-         ['Property Tax', parseFloat(propTax)],
-         ['Maintenence', parseFloat(maintenence)],
-         ['Utilites', parseFloat(utility)],
-      ]);
+
+      var propertyEntries = [['Task', 'Hours per Day']];
+
+      {% for property in properties %}
+         propertyEntries.push(['{{property.street}}', parseInt('{{property.monthlyIncome}}')])
+      {% endfor %}
+
+      // var data = google.visualization.arrayToDataTable([
+      //    ['Task', 'Hours per Day'],
+      //    ['Property Tax', parseFloat(propTax)],
+      //    ['Maintenence', parseFloat(maintenence)],
+      //    ['Utilites', parseFloat(utility)],
+      // ]);
+
+      var data = google.visualization.arrayToDataTable(propertyEntries);
 
       var options = {
          title: 'My Daily Activities',
-         pieHole: 0.6,
+         pieHole: 0.5,
+         // is3D: true,
          backgroundColor: '#000000',
          backgroundColor: { fill: 'transparent' },
          legend: { position: 'bottom', textStyle: { color: 'white' } },
          chartArea: { left: 0, top: 0, right: 0 },
-         colors: ['#F7464A', '#46BFBD', '#FDB45C'],
+         colors: ['#F7464A', '#46BFBD', '#FDB45C', '#64C441'],
       };
 
       var chart = new google.visualization.PieChart(
-         document.getElementById('donutchart')
+         document.getElementById('donutchart2')
       );
       chart.draw(data, options);
    }
 </script>
+{% endblock %}
+
 <div id="wrapper">
    <article>
       <h3>Welcome, {{user.firstName + ' ' + user.lastName}}</h3>
@@ -44,18 +56,28 @@
          </div>
       </div>
       <div class="col right">
-         <h2>Amount Owed</h2>
+         <h2>Expenses</h2>
          <div class="tile">
             <h4 class="amt">${{ outcome.propertyTax }}</h4>
          </div>
       </div>
    </div>
-   <div id="row expense-breakdown">
-      <h2>Expense Breakdown</h2>
-      <div id="donutchart" style="height: 500px"></div>
-      <ul>
-         <li>Property Tax:</li>
-      </ul>
+   <h2>Income Breakdown</h2>
+   <div class="donut" id="donutchart2" style="height: 500px"></div>
+   <div id="property-breakdown">
+      {% for property in properties %}
+      <article class="rentInfo">
+         <h2>{{property.street}}</h2>
+         <ul>
+            {% for tenant in tenants %} {% if tenant.propertyID ==
+            property.propertyID %}
+
+            <li>{{tenant.name}}: <span>${{tenant.monthlyRent}}</span></li>
+            {% endif %} {% endfor %}
+            <li class="total">Total: <span>$</span></li>
+         </ul>
+      </article>
+      {% endfor %}
    </div>
 </div>
 {% endblock %}

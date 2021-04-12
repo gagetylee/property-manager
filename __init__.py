@@ -24,15 +24,48 @@ def home():
 
     c.execute("SELECT * FROM Landlord WHERE landlordID = ?", (userID, ))
     landlord = c.fetchone();
-    # Get monthly income for user
 
+    # Get monthly income for user
     c.execute("SELECT SUM(monthlyIncome) as total FROM Property WHERE landlordID = ?", (userID,))
     totalIncome = c.fetchone()
+
+
+
+
+
+
 
     # Get monthly outcome for user
     c.execute("SELECT * FROM MonthlyExpenses")
     totalOutcome = c.fetchone()
-    return render_template('home.html', user = landlord, income = totalIncome, outcome = totalOutcome)
+
+    # Get properties
+    c.execute("SELECT * FROM Property WHERE landlordID=?", (userID,))
+    propertyList = c.fetchall();
+
+    # Get rental agreements for properties owned by user
+    c.execute("SELECT * FROM Rents WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID,))
+    renters = c.fetchall();
+
+
+
+    # Get tenants of property with propertyID
+    # c.execute("SELECT tenantID, name, monthlyRent FROM (SELECT tenantID, companyName as name, monthlyRent FROM Company WHERE tenantID IN (SELECT tenantID FROM Rents WHERE propertyID =?) UNION SELECT tenantID, (firstName||' '||lastName) as name, monthlyRent FROM Individual WHERE tenantID IN ( SELECT tenantID FROM Rents WHERE propertyID =?))", (propertyID,propertyID, ))
+    # tenantList = c.fetchall();
+
+    c.execute("SELECT propertyID, name, monthlyRent FROM Rents, TenantTemp WHERE Rents.tenantID = TenantTemp.tenantID")
+    tenantList = c.fetchall();
+    
+    
+
+    return render_template('home.html',
+        user = landlord, 
+        income = totalIncome,
+        outcome = totalOutcome,
+        properties = propertyList,
+        rentalList = renters,
+        tenants = tenantList
+    )
     
 @app.route("/landlords")
 def landlords():
