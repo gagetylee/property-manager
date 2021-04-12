@@ -6,9 +6,6 @@
    google.charts.load('current', { packages: ['corechart'] });
    google.charts.setOnLoadCallback(drawChart);
    function drawChart() {
-      var propTax = '{{outcome.propertyTax}}';
-      var maintenence = '{{outcome.MaintNRepairs}}';
-      var utility = '{{outcome.utilityBill}}';
 
       var propertyEntries = [['Task', 'Hours per Day']];
 

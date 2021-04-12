@@ -37,7 +37,7 @@ def login():
             if users[username] == pwd:
                 session['user'] = username
                 session['id'] = users[username]
-                return render_template('home.html', user=username)
+                return home()
             else:
                 return render_template('log-in.html', info='invalid password')
         else:
@@ -53,15 +53,13 @@ def logout():
     
 @app.route("/home")
 def home():
+    
     if 'user' in session:
-        username = session['user']
-
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
-
         # Get user, currently set to default id: 1
-        userID = 1
+        userID = session['id']
 
         c.execute("SELECT * FROM Landlord WHERE landlordID = ?", (userID, ))
         landlord = c.fetchone();
@@ -88,9 +86,8 @@ def home():
 
         c.execute("SELECT propertyID, name, monthlyRent FROM Rents, TenantTemp WHERE Rents.tenantID = TenantTemp.tenantID")
         tenantList = c.fetchall();
-    
         return render_template('home.html',
-            user = username, 
+            user = landlord, 
             income = totalIncome,
             outcome = totalOutcome,
             properties = propertyList,
