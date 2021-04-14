@@ -149,7 +149,7 @@ def query():
         c = conn.cursor()
         #c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
         #displays the landlordID (working) and count of property (not working yet)
-        c.execute("SELECT landlordID FROM Property")
+        c.execute("SELECT landlordID, COUNT (*) FROM Property GROUP BY landlordID ORDER BY COUNT (*) DESC ")
         properties = c.fetchall()
         return render_template('query.html', data=properties)
     else:
