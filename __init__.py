@@ -84,8 +84,11 @@ def home():
         # c.execute("SELECT tenantID, name, monthlyRent FROM (SELECT tenantID, companyName as name, monthlyRent FROM Company WHERE tenantID IN (SELECT tenantID FROM Rents WHERE propertyID =?) UNION SELECT tenantID, (firstName||' '||lastName) as name, monthlyRent FROM Individual WHERE tenantID IN ( SELECT tenantID FROM Rents WHERE propertyID =?))", (propertyID,propertyID, ))
         # tenantList = c.fetchall();
 
-        c.execute("SELECT propertyID, name, monthlyRent FROM Rents, TenantTemp WHERE Rents.tenantID = TenantTemp.tenantID")
+        ##### THIS QUERY SATISFIES THE JOIN REQUIREMENT #####
+        c.execute("SELECT propertyID, name, monthlyRent FROM Rents JOIN TenantTemp ON (Rents.tenantID == TenantTemp.tenantID) WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID, ))
         tenantList = c.fetchall();
+
+
         return render_template('home.html',
             user = landlord, 
             income = totalIncome,
