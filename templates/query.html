@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<article>
+    <h3>Your Properties</h3>
+    <table>
+        <tr>
+            <th>ID#</th>
+            <th>Province</th>
+            <th>Street</th>
+            <th>Postal Code</th>
+            <th>Price</th>
+            <th>Monthly Income</th>
+            <th>Lot Size</th>
+            <th>Build Date</th>
+            <th>Landlord</th>
+        </tr>
+        {% for property in data %}
+        <tr>
+            <td>{{property.propertyID}}</td>
+            <td>{{property.province}}</td>
+            <td>{{property.street}}</td>
+            <td>{{property.postcode}}</td>
+            <td>{{property.price}}</td>
+            <td>{{property.monthlyIncome}}</td>
+            <td>{{property.lotSize}}</td>
+            <td>{{property.buildDate}}</td>
+            <td>{{property.landlordID}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</article>
+{% endblock %}
