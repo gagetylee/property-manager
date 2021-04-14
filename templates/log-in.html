@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='login.css') }}">
+        <title>Property Manager - Log-in</title>
+    </head>
+    <body>
+        <div class="login-backdrop">
+            <h1 id="banner">Property Manager</h1>
+            <h3 id="banner-backing">PM</h3>
+            <div class="separator"></div>
+            <form class="login-form" action=login method="post">
+                <h3>Welcome</h2>
+                <input type="text" placeholder="User" name='username'><br></br>
+                <input type="password" placeholder="Password" name='pwd'><br></br>
+                <p style="color:red;font-size:15px;" >{{info}}</p>
+                <input id="login" type="submit" value="Login">
+            </form>
+        </div>
+        <div id="overlay"></div>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+{% extends "layout.html" %} {% block content %}
+<article>
+   <h3>User Information</h3>
+   <table>
+      <tr>
+         <th>ID#</th>
+         <th>First Name</th>
+         <th>Last Name</th>
+      </tr>
+      {% for landlord in data %}
+      <tr>
+         <td>{{landlord.landlordID}}</td>
+         <td>{{landlord.firstName}}</td>
+         <td>{{landlord.lastName}}</td>
+      </tr>
+      {% endfor %}
+   </table>
+</article>
+{% endblock %}

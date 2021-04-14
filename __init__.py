@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for, flash, redirect
+from flask import Flask, request, render_template, url_for, redirect, session
 import sqlite3
 
 conn = sqlite3.connect('database.db')
@@ -10,12 +10,94 @@ def dict_factory(cursor, row):
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
-
-
+    
 @app.route("/")
+@app.route("/login", methods=['POST','GET'])
+def login():
+    if request.method == "POST":
+        # Grab "users" and "passwords" from database
+        conn = sqlite3.connect('database.db')
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT landlordID, firstName FROM Landlord")
+        user_storage = c.fetchall()
+        
+        # Store user-password combinations in python dictionary
+        users = {}
+        for user in user_storage:
+            users[user['firstName']] = str(user['landlordID'])
+        print(users) # for debugging
+    
+        # Grab form data from login page
+        username = request.form['username']
+        pwd = request.form['pwd']
+        
+        # Check form data for a user-password combination match
+        if username in users:
+            if users[username] == pwd:
+                session['user'] = username
+                session['id'] = users[username]
+                return home()
+            else:
+                return render_template('log-in.html', info='invalid password')
+        else:
+            return render_template('log-in.html', info='invalid user')
+    else:
+        return render_template('log-in.html')
+    
+@app.route("/logout")
+def logout():
+    session.pop('user', None)
+    session.pop('id', None)
+    return redirect(url_for('login'))
+    
 @app.route("/home")
 def home():
-    return render_template('home.html')
+    
+    if 'user' in session:
+        conn = sqlite3.connect('database.db')
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        # Get user, currently set to default id: 1
+        userID = session['id']
+
+        c.execute("SELECT * FROM Landlord WHERE landlordID = ?", (userID, ))
+        landlord = c.fetchone();
+
+        # Get monthly income for user
+        c.execute("SELECT SUM(monthlyIncome) as total FROM Property WHERE landlordID = ?", (userID,))
+        totalIncome = c.fetchone()
+
+        # Get monthly outcome for user
+        c.execute("SELECT * FROM MonthlyExpenses")
+        totalOutcome = c.fetchone()
+
+        # Get properties
+        c.execute("SELECT * FROM Property WHERE landlordID=?", (userID,))
+        propertyList = c.fetchall();
+
+        # Get rental agreements for properties owned by user
+        c.execute("SELECT * FROM Rents WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID,))
+        renters = c.fetchall();
+
+        # Get tenants of property with propertyID
+        # c.execute("SELECT tenantID, name, monthlyRent FROM (SELECT tenantID, companyName as name, monthlyRent FROM Company WHERE tenantID IN (SELECT tenantID FROM Rents WHERE propertyID =?) UNION SELECT tenantID, (firstName||' '||lastName) as name, monthlyRent FROM Individual WHERE tenantID IN ( SELECT tenantID FROM Rents WHERE propertyID =?))", (propertyID,propertyID, ))
+        # tenantList = c.fetchall();
+
+        c.execute("SELECT propertyID, name, monthlyRent FROM Rents, TenantTemp WHERE Rents.tenantID = TenantTemp.tenantID")
+        tenantList = c.fetchall();
+        return render_template('home.html',
+            user = landlord, 
+            income = totalIncome,
+            outcome = totalOutcome,
+            properties = propertyList,
+            rentalList = renters,
+            tenants = tenantList
+        )
+    else:
+        return redirect(url_for('login'))
+    
+    
     
 @app.route("/landlords")
 def landlords():
@@ -26,17 +108,50 @@ def landlords():
     landlords = c.fetchall()
 
     return render_template('landlords.html', data=landlords)
+
+
+@app.route("/info")
+def info():
+    if 'user' in session:
+        username = session['user']
+        conn = sqlite3.connect('database.db')
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT * FROM Landlord WHERE firstName=='"+ username +"'")
+        landlords = c.fetchall()
+        return render_template('info.html', data=landlords)
+    else:
+        return redirect(url_for('login'))
     
 @app.route("/properties")
 def properties():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = dict_factory
-    c = conn.cursor()
-    c.execute("SELECT * FROM Property")
-    properties = c.fetchall()
+    if 'user' in session:
+        username = session['user']
+        id = session['id']
+        
+        conn = sqlite3.connect('database.db')
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
+        properties = c.fetchall()
+        return render_template('properties.html', data=properties)
+    else:
+        return redirect(url_for('login'))
 
-    return render_template('properties.html', data=properties)
+@app.route("/query")
+def query():
+    if 'user' in session:
+        username = session['user']
+        id = session['id']
 
+        conn = sqlite3.connect('database.db')
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
+        properties = c.fetchall()
+        return render_template('query.html', data=properties)
+    else:
+        return redirect(url_for('login'))
 
 # @app.route("/register", methods=['GET', 'POST'])
 # def register():
