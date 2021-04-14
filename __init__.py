@@ -147,7 +147,9 @@ def query():
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
-        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
+        #c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
+        #displays the landlordID (working) and count of property (not working yet)
+        c.execute("SELECT landlordID FROM Property")
         properties = c.fetchall()
         return render_template('query.html', data=properties)
     else:
