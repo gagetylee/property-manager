@@ -9,6 +9,8 @@ drop table if exists Retail;
 drop table if exists Office;
 drop table if exists Multifamily;
 drop table if exists Spaces;
+drop view if exists TenantTemp;
+drop view if exists PropertyIncome;
 
 CREATE TABLE Landlord (
 landlordID    INTEGER,
@@ -264,4 +266,12 @@ FROM (
 	   SELECT tenantID, (firstName||' '||lastName) as name, monthlyRent
 	   FROM Individual
    )
+);
+
+CREATE VIEW PropertyIncome AS
+SELECT propertyID, street, SUM(monthlyRent) as totalIncome
+FROM TenantTemp, Property
+WHERE (propertyID, tenantID) IN (
+	SELECT propertyID, tenantID FROM Rents
 )
+GROUP BY propertyID;

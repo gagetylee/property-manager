@@ -204,3 +204,8 @@ th {
    text-align: right;
    float: right;
 }
+
+.total {
+   font-weight: bold;
+   padding-top: 30px;
+}

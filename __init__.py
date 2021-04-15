@@ -65,13 +65,17 @@ def home():
         landlord = c.fetchone();
 
         # Get monthly income for user
-        c.execute("SELECT SUM(monthlyIncome) as total FROM Property WHERE landlordID = ?", (userID,))
+        c.execute("SELECT SUM(monthlyRent) as rentSum FROM Rents JOIN TenantTemp ON (Rents.tenantID == TenantTemp.tenantID) WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID,))
         totalIncome = c.fetchone()
 
-        # Get monthly outcome for user
-        c.execute("SELECT * FROM MonthlyExpenses")
-        totalOutcome = c.fetchone()
+        # Get monthly expenses for user
+        c.execute("SELECT SUM(utilityBill)+SUM(MaintNRepairs)+SUM(propertyTax) as totalExpenses FROM MonthlyExpenses WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID,))
+        totalExpenses = c.fetchone()
 
+        # Get incomes of each property
+
+        c.execute("SELECT propertyID, totalIncome FROM PropertyIncome WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID, ))
+        totalPropertyIncomes = c.fetchall();
         # Get properties
         c.execute("SELECT * FROM Property WHERE landlordID=?", (userID,))
         propertyList = c.fetchall();
@@ -92,7 +96,8 @@ def home():
         return render_template('home.html',
             user = landlord, 
             income = totalIncome,
-            outcome = totalOutcome,
+            expenses = totalExpenses,
+            propertyIncomes = totalPropertyIncomes,
             properties = propertyList,
             rentalList = renters,
             tenants = tenantList

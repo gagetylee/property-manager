@@ -10,7 +10,11 @@
       var propertyEntries = [['Task', 'Hours per Day']];
 
       {% for property in properties %}
+         {% for income in propertyIncomes %}
+            {% if income.propertyID == property.propertyID %}
          propertyEntries.push(['{{property.street}}', parseInt('{{property.monthlyIncome}}')])
+            {% endif %}
+         {% endfor %}
       {% endfor %}
 
       // var data = google.visualization.arrayToDataTable([
@@ -49,13 +53,13 @@
       <div class="col left">
          <h2>Total Income</h2>
          <div class="tile">
-            <h4 class="amt">${{ income.total }}</h4>
+            <h4 class="amt">${{ income.rentSum }}</h4>
          </div>
       </div>
       <div class="col right">
          <h2>Expenses</h2>
          <div class="tile">
-            <h4 class="amt">${{ outcome.propertyTax }}</h4>
+            <h4 class="amt">${{ expenses.totalExpenses }}</h4>
          </div>
       </div>
    </div>
@@ -70,8 +74,10 @@
             property.propertyID %}
 
             <li>{{tenant.name}}: <span>${{tenant.monthlyRent}}</span></li>
+            {% endif %} {% endfor %} {% for income in propertyIncomes %} {% if
+            income.propertyID == property.propertyID %}
+            <li class="total">Total:<span>${{income.totalIncome}}</span></li>
             {% endif %} {% endfor %}
-            <li class="total">Total: <span>$</span></li>
          </ul>
       </article>
       {% endfor %}
