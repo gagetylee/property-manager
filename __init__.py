@@ -191,7 +191,10 @@ def insert():
         c = conn.cursor()
         c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID==" + str(id))
         properties = c.fetchall()
-        return render_template('properties.html', data=properties)
+        c.execute("INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) VALUES ('Ontario','4080 Granville St','V5Y3M2','143233.04','4000','5500','2012','1')")
+        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID==" + str(id))
+        newInsert = c.fetchall()
+        return render_template('properties.html', data=properties, newInsert=newInsert)
     else:
         return redirect(url_for('login'))
 
