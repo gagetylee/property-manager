@@ -150,11 +150,14 @@ def query():
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
-        #c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
-        #displays the landlordID (working) and count of property (not working yet)
+        # Aggregation query with COUNT function
         c.execute("SELECT COUNT (*) AS totalProperty FROM Property WHERE landlordID=?", (userID,))
-        properties = c.fetchall()
-        return render_template('query.html', data=properties)
+        totalProperty = c.fetchall()
+        c.execute("SELECT province, SUM(price) AS netWorth FROM Property WHERE landlordID=? GROUP BY province", (userID,))
+        netWorth = c.fetchall()
+        return render_template('query.html',
+            totalProperty=totalProperty,
+            netWorth=netWorth)
     else:
         return redirect(url_for('login'))
 

@@ -4,12 +4,27 @@
     <h3>Number of Properties</h3>
     <table>
         <tr>
-            <th>Count</th>
+            <th>Total number of properties </th>
 
         </tr>
-        {% for property in data %}
+        {% for property in totalProperty %}
         <tr>
             <td>{{property.totalProperty}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Sum of property net worth</h3>
+    <table>
+        <tr>
+            <th> Province</th>
+            <th>Price</th>
+
+        </tr>
+        {% for property in netWorth %}
+        <tr>
+            <td>{{property.province}}</td>
+            <td>{{property.netWorth}}</td>
 
         </tr>
         {% endfor %}
