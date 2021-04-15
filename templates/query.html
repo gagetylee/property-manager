@@ -14,6 +14,21 @@
         </tr>
         {% endfor %}
     </table>
+    <h3>Property Net Worth by Province</h3>
+    <table>
+        <tr>
+            <th>Province</th>
+            <th>Amount</th>
+
+        </tr>
+        {% for property in data %}
+        <tr>
+            <td>{{property.province}}</td>
+            <td>{{property.netWorth}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
     <h3>Sum of property net worth</h3>
     <table>
         <tr>
@@ -25,6 +40,36 @@
         <tr>
             <td>{{property.province}}</td>
             <td>{{property.netWorth}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Original property price</h3>
+    <table>
+        <tr>
+            <th>Street Address</th>
+            <th>Price</th>
+
+        </tr>
+        {% for property in unchangedPrice %}
+        <tr>
+            <td>{{property.street}}</td>
+            <td>{{property.price}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Updated property price</h3>
+    <table>
+        <tr>
+            <th>Street Address</th>
+            <th>Price</th>
+
+        </tr>
+        {% for property in newPrice %}
+        <tr>
+            <td>{{property.street}}</td>
+            <td>{{property.price}}</td>
 
         </tr>
         {% endfor %}

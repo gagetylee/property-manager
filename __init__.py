@@ -5,14 +5,16 @@ conn = sqlite3.connect('database.db')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
+
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
-    
+
+
 @app.route("/")
-@app.route("/login", methods=['POST','GET'])
+@app.route("/login", methods=['POST', 'GET'])
 def login():
     if request.method == "POST":
         # Grab "users" and "passwords" from database
@@ -21,17 +23,17 @@ def login():
         c = conn.cursor()
         c.execute("SELECT landlordID, firstName FROM Landlord")
         user_storage = c.fetchall()
-        
+
         # Store user-password combinations in python dictionary
         users = {}
         for user in user_storage:
             users[user['firstName']] = str(user['landlordID'])
-        print(users) # for debugging
-    
+        print(users)  # for debugging
+
         # Grab form data from login page
         username = request.form['username']
         pwd = request.form['pwd']
-        
+
         # Check form data for a user-password combination match
         if username in users:
             if users[username] == pwd:
@@ -44,16 +46,17 @@ def login():
             return render_template('log-in.html', info='invalid user')
     else:
         return render_template('log-in.html')
-    
+
+
 @app.route("/logout")
 def logout():
     session.pop('user', None)
     session.pop('id', None)
     return redirect(url_for('login'))
-    
+
+
 @app.route("/home")
 def home():
-    
     if 'user' in session:
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
@@ -61,7 +64,7 @@ def home():
         # Get user, currently set to default id: 1
         userID = session['id']
 
-        c.execute("SELECT * FROM Landlord WHERE landlordID = ?", (userID, ))
+        c.execute("SELECT * FROM Landlord WHERE landlordID = ?", (userID,))
         landlord = c.fetchone();
 
         # Get monthly income for user
@@ -77,7 +80,8 @@ def home():
         propertyList = c.fetchall();
 
         # Get rental agreements for properties owned by user
-        c.execute("SELECT * FROM Rents WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID,))
+        c.execute("SELECT * FROM Rents WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)",
+                  (userID,))
         renters = c.fetchall();
 
         # Get tenants of property with propertyID
@@ -85,23 +89,23 @@ def home():
         # tenantList = c.fetchall();
 
         ##### THIS QUERY SATISFIES THE JOIN REQUIREMENT #####
-        c.execute("SELECT propertyID, name, monthlyRent FROM Rents JOIN TenantTemp ON (Rents.tenantID == TenantTemp.tenantID) WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID, ))
+        c.execute(
+            "SELECT propertyID, name, monthlyRent FROM Rents JOIN TenantTemp ON (Rents.tenantID == TenantTemp.tenantID) WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)",
+            (userID,))
         tenantList = c.fetchall();
 
-
         return render_template('home.html',
-            user = landlord, 
-            income = totalIncome,
-            outcome = totalOutcome,
-            properties = propertyList,
-            rentalList = renters,
-            tenants = tenantList
-        )
+                               user=landlord,
+                               income=totalIncome,
+                               outcome=totalOutcome,
+                               properties=propertyList,
+                               rentalList=renters,
+                               tenants=tenantList
+                               )
     else:
         return redirect(url_for('login'))
-    
-    
-    
+
+
 @app.route("/landlords")
 def landlords():
     conn = sqlite3.connect('database.db')
@@ -120,26 +124,28 @@ def info():
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
-        c.execute("SELECT * FROM Landlord WHERE firstName=='"+ username +"'")
+        c.execute("SELECT * FROM Landlord WHERE firstName=='" + username + "'")
         landlords = c.fetchall()
         return render_template('info.html', data=landlords)
     else:
         return redirect(url_for('login'))
-    
+
+
 @app.route("/properties")
 def properties():
     if 'user' in session:
         username = session['user']
         id = session['id']
-        
+
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
-        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
+        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID==" + str(id))
         properties = c.fetchall()
         return render_template('properties.html', data=properties)
     else:
         return redirect(url_for('login'))
+
 
 @app.route("/query")
 def query():
@@ -153,13 +159,27 @@ def query():
         # Aggregation query with COUNT function
         c.execute("SELECT COUNT (*) AS totalProperty FROM Property WHERE landlordID=?", (userID,))
         totalProperty = c.fetchall()
-        c.execute("SELECT province, SUM(price) AS netWorth FROM Property WHERE landlordID=? GROUP BY province", (userID,))
+        # Sum of property net worth group by province query
+        c.execute("SELECT province, SUM(price) AS netWorth FROM Property WHERE landlordID=? GROUP BY province",
+                  (userID,))
         netWorth = c.fetchall()
+
+        # Display unchanged property price
+        c.execute("SELECT street, price FROM Property WHERE landlordID=?", (userID,))
+        unchangedPrice=c.fetchall()
+        # Update new price for property price
+        c.execute("UPDATE Property SET price=price*1.1 WHERE landlordID=?", (userID,))
+        c.execute("SELECT street, price FROM Property WHERE landlordID=?", (userID,))
+        newPrice= c.fetchall()
         return render_template('query.html',
-            totalProperty=totalProperty,
-            netWorth=netWorth)
+                               totalProperty=totalProperty,
+                               netWorth=netWorth,
+                               unchangedPrice=unchangedPrice,
+                               newPrice=newPrice
+                               )
     else:
         return redirect(url_for('login'))
+
 
 # @app.route("/register", methods=['GET', 'POST'])
 # def register():
@@ -168,7 +188,7 @@ def query():
 #     if form.validate_on_submit():
 #         conn = sqlite3.connect('database.db')
 #         c = conn.cursor()
-        
+
 #         #Add the new blog into the 'blogs' table
 #         query = 'insert into users VALUES (?, ?, ?)'
 #         c.execute(query, (form.username.data, form.email.data, form.password.data)) #Execute the query
@@ -210,4 +230,3 @@ def query():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
