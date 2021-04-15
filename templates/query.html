@@ -4,29 +4,12 @@
     <h3>Number of Properties</h3>
     <table>
         <tr>
-            <th>Landlord</th>
             <th>Count</th>
 
         </tr>
         {% for property in data %}
         <tr>
-            <td>{{property.landlordID}}</td>
-            <td>{{property.province}}</td>
-
-        </tr>
-        {% endfor %}
-    </table>
-    <h3> Sum of property net-worth owned by each Landlord</h3>
-    <table>
-        <tr>
-            <th>Landlord</th>
-            <th>Net-worth</th>
-
-        </tr>
-        {% for property in data %}
-        <tr>
-            <td>{{property.landlordID}}</td>
-            <td>{{property.province}}</td>
+            <td>{{property.totalProperty}}</td>
 
         </tr>
         {% endfor %}
