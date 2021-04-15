@@ -180,6 +180,20 @@ def query():
     else:
         return redirect(url_for('login'))
 
+@app.route("/insert")
+def insert():
+    if 'user' in session:
+        username = session['user']
+        id = session['id']
+
+        conn = sqlite3.connect('database.db')
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID==" + str(id))
+        properties = c.fetchall()
+        return render_template('properties.html', data=properties)
+    else:
+        return redirect(url_for('login'))
 
 # @app.route("/register", methods=['GET', 'POST'])
 # def register():
