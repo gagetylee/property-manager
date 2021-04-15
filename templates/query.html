@@ -29,6 +29,20 @@
         </tr>
         {% endfor %}
     </table>
+        <h3>Update Monthly Rent </h3>
+    <table>
+        <tr>
+            <th> Province</th>
+
+        </tr>
+        {% for property in netWorth %}
+        <tr>
+            <td>{{property.province}}</td>
+            <td>{{property.netWorth}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
     <h3>Sum of property net worth</h3>
     <table>
         <tr>
