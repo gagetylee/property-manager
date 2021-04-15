@@ -142,7 +142,24 @@ def properties():
         c = conn.cursor()
         c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID==" + str(id))
         properties = c.fetchall()
+        # Insert query???
+        c.execute("INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) VALUES ('Ontario','4080 Granville St','V5Y3M2','143233.04','4000','5500','2012','1')")
+        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID==" + str(id))
+        properties = c.fetchall()
         return render_template('properties.html', data=properties)
+    else:
+        return redirect(url_for('login'))
+
+app.route("/insert")
+def insert():
+    if 'user' in session:
+        username = session['user']
+        userID = session['id']
+
+        conn = sqlite3.connect('database.db')
+        conn.row_factory = dict_factory
+        c = conn.cursor()
+
     else:
         return redirect(url_for('login'))
 
@@ -171,6 +188,7 @@ def query():
         c.execute("UPDATE Property SET price=price*1.1 WHERE landlordID=?", (userID,))
         c.execute("SELECT street, price FROM Property WHERE landlordID=?", (userID,))
         newPrice= c.fetchall()
+
         return render_template('query.html',
                                totalProperty=totalProperty,
                                netWorth=netWorth,
@@ -180,23 +198,6 @@ def query():
     else:
         return redirect(url_for('login'))
 
-@app.route("/insert")
-def insert():
-    if 'user' in session:
-        username = session['user']
-        id = session['id']
-
-        conn = sqlite3.connect('database.db')
-        conn.row_factory = dict_factory
-        c = conn.cursor()
-        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID==" + str(id))
-        properties = c.fetchall()
-        c.execute("INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID) VALUES ('Ontario','4080 Granville St','V5Y3M2','143233.04','4000','5500','2012','1')")
-        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID==" + str(id))
-        newInsert = c.fetchall()
-        return render_template('properties.html', data=properties, newInsert=newInsert)
-    else:
-        return redirect(url_for('login'))
 
 # @app.route("/register", methods=['GET', 'POST'])
 # def register():
