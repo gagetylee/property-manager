@@ -10,7 +10,7 @@ def dict_factory(cursor, row):
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
-    
+
 @app.route("/")
 @app.route("/login", methods=['POST','GET'])
 def login():
@@ -21,17 +21,17 @@ def login():
         c = conn.cursor()
         c.execute("SELECT landlordID, firstName FROM Landlord")
         user_storage = c.fetchall()
-        
+
         # Store user-password combinations in python dictionary
         users = {}
         for user in user_storage:
             users[user['firstName']] = str(user['landlordID'])
         print(users) # for debugging
-    
+
         # Grab form data from login page
         username = request.form['username']
         pwd = request.form['pwd']
-        
+
         # Check form data for a user-password combination match
         if username in users:
             if users[username] == pwd:
@@ -44,16 +44,16 @@ def login():
             return render_template('log-in.html', info='invalid user')
     else:
         return render_template('log-in.html')
-    
+
 @app.route("/logout")
 def logout():
     session.pop('user', None)
     session.pop('id', None)
     return redirect(url_for('login'))
-    
+
 @app.route("/home")
 def home():
-    
+
     if 'user' in session:
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
@@ -61,7 +61,7 @@ def home():
         # Get user, currently set to default id: 1
         userID = session['id']
 
-        c.execute("SELECT * FROM Landlord WHERE landlordID = ?", (userID, ))
+        c.execute("SELECT * FROM Landlord WHERE landlordID = ?", (userID,))
         landlord = c.fetchone();
 
         # Get monthly income for user
@@ -94,7 +94,7 @@ def home():
 
 
         return render_template('home.html',
-            user = landlord, 
+            user = landlord,
             income = totalIncome,
             expenses = totalExpenses,
             propertyIncomes = totalPropertyIncomes,
@@ -104,9 +104,9 @@ def home():
         )
     else:
         return redirect(url_for('login'))
-    
-    
-    
+
+
+
 @app.route("/landlords")
 def landlords():
     conn = sqlite3.connect('database.db')
@@ -130,16 +130,30 @@ def info():
         return render_template('info.html', data=landlords)
     else:
         return redirect(url_for('login'))
-    
-@app.route("/properties")
+
+@app.route("/properties", methods=['POST','GET'])
 def properties():
     if 'user' in session:
         username = session['user']
         id = session['id']
-        
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
+
+        if request.method == "POST":
+            p1 = request.form['province']
+            p2 = request.form['street']
+            p3 = request.form['postcode']
+            p4 = request.form['price']
+            p5 = request.form['monthlyIncome']
+            p6 = request.form['lotSize']
+            p7 = request.form['buildDate']
+            p8 = id
+            query = 'INSERT INTO Property (province, street, postcode, price, monthlyIncome, lotSize, buildDate, landlordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+            c.execute(query, (p1, p2, p3, p4, p5, p6, p7, p8))
+            conn.commit()
+            # test = {'province': p1, 'street': p2, 'postcode': p3, 'price': p4, 'monthlyIncome': p5, 'lotSize': p6, 'buildDate': p7}
+
         c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
         properties = c.fetchall()
         return render_template('properties.html', data=properties)
@@ -156,7 +170,7 @@ def properties():
 #     if form.validate_on_submit():
 #         conn = sqlite3.connect('database.db')
 #         c = conn.cursor()
-        
+
 #         #Add the new blog into the 'blogs' table
 #         query = 'insert into users VALUES (?, ?, ?)'
 #         c.execute(query, (form.username.data, form.email.data, form.password.data)) #Execute the query
@@ -198,4 +212,3 @@ def properties():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
