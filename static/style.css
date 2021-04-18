@@ -12,8 +12,6 @@ html {
    color: white;
    margin: -20px -8px;
    padding: 3em 0;
-   /*    background: rgba(0,21,43,0);*/
-   /*    background-size: cover;*/
 }
 #navleft {
    position: relative;
@@ -208,4 +206,29 @@ th {
 .total {
    font-weight: bold;
    padding-top: 30px;
+}
+
+.property-form {
+    margin-left: -8px;
+    width: 11em;
+    height: 1.7em;
+    border-radius: 10px;
+    background-color: rgba(84,105,112,0.09);
+    color: white;
+    border-color: rgb(15,17,17);
+}
+.property-form::placeholder {
+    padding: 5px;
+    font-size: 1.2em;
+}
+#add-button {
+  color: white;
+  background-color: rgb(84,105,112);
+  border: none;
+  border-radius: 0px;
+  padding: 0.3em 1.5em;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.6em;
+  border-radius: 3px;
 }
