@@ -142,9 +142,11 @@ def properties():
         c = conn.cursor()
         c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
         properties = c.fetchall()
+        c.execute("DELETE FROM Property WHERE propertyID=2")
         return render_template('properties.html', data=properties)
     else:
         return redirect(url_for('login'))
+
 
 
 

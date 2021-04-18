@@ -31,6 +31,8 @@ buildDate		YEAR,
 landlordID		INTEGER,
 
 PRIMARY KEY (propertyID)
+FOREIGN KEY (lanlordID) REFERENCES Landlord(landlordID)
+ON DELETE CASCADE
 );
 CREATE TABLE MonthlyExpenses (
 propertyID	INTEGER NOT NULL,
@@ -43,6 +45,7 @@ MaintNRepairs	DECIMAL(10,2),
 PRIMARY KEY (propertyID, date),
 FOREIGN KEY (propertyID) REFERENCES Property(propertyID),
 FOREIGN KEY (landID) REFERENCES Landlord(landlordID)
+ON DELETE CASCADE
 );
 
 CREATE TABLE Tenant (
@@ -59,6 +62,7 @@ monthlyRent	   DECIMAL(10,2),
 
 PRIMARY KEY (tenantID),
 FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID)
+ON DELETE CASCADE
 );
 CREATE TABLE Company (
 tenantID		INTEGER NOT NULL,
@@ -67,6 +71,7 @@ monthlyRent	   DECIMAL(10,2),
 
 PRIMARY KEY (tenantID),
 FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID)
+ON DELETE CASCADE
 );
 CREATE TABLE Rents (
 propertyID		INTEGER NOT NULL,
@@ -75,12 +80,14 @@ tenantID		   INTEGER NOT NULL,
 PRIMARY KEY (propertyID, tenantID),
 FOREIGN KEY (tenantID) REFERENCES Tenant(tenantID),
 FOREIGN KEY (propertyID) REFERENCES Property(propertyID)
+ON DELETE CASCADE
 );
 CREATE TABLE Retail (
 propertyID	INTEGER NOT NULL,
 
 PRIMARY KEY (propertyID),
 FOREIGN KEY (propertyID) REFERENCES Property(propertyID)
+ON DELETE CASCADE
 );
 CREATE TABLE Office (
 propertyID	INTEGER NOT NULL,
@@ -88,6 +95,7 @@ furnished	VARCHAR(50) NOT NULL,
 
 PRIMARY KEY (PropertyID),
 FOREIGN KEY (PropertyID) REFERENCES Property(propertyID)
+ON DELETE CASCADE
 );
 CREATE TABLE Multifamily (
 propertyID	INTEGER NOT NULL,
@@ -96,6 +104,8 @@ furnished	VARCHAR(50) NOT NULL,
 
 PRIMARY KEY (propertyID),
 FOREIGN KEY (PropertyID) REFERENCES Property(propertyID)
+ON DELETE CASCADE
+
 );
 CREATE TABLE Spaces(
 propertyID	INTEGER NOT NULL,
@@ -103,6 +113,7 @@ space		   INTEGER NOT NULL,
 
 PRIMARY KEY (propertyID),
 FOREIGN KEY (propertyID) REFERENCES Multifamily(propertyID)
+ON DELETE CASCADE
 );
 
 
