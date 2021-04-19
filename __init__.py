@@ -151,15 +151,17 @@ def properties():
             elif "confirm" in request.form:
                 print("confirmed")
                 confirmID = request.form['confirm']
-#                p1Edit = request.form['provinceEdit']
-#                p2Edit = request.form['streetEdit']
-#                p3Edit = request.form['postcodeEdit']
-#                p4Edit = request.form['priceEdit']
-#                p5Edit = request.form['monthlyIncomeEdit']
-#                p6Edit = request.form['lotSizeEdit']
-#                p7Edit = request.form['buildDateEdit']
-#                query = 'UPDATE Property SET province=?,street=?,postcode=?,price=?,monthlyIncome=?,lotSize=?,buildDate=? WHERE landlordID=?'
-#                c.execute("", (p1Edit,p2Edit,p3Edit,p4Edit,p5Edit,p6Edit,p7Edit,confirmID))
+                p1edit = request.form.get('editprovince', "Province")
+                p2edit = request.form.get('editstreet', "Street")
+                p3edit = request.form.get('editpostcode', "Postal Code")
+                p4edit = request.form.get('editprice', "Price")
+                p5edit = request.form.get('editmonthlyincome', "Monthly Income")
+                p6edit = request.form.get('editlotsize', "Lot Size")
+                p7edit = request.form.get('editbuilddate', "Build Date")
+                print(p1edit, p2edit, p3edit, p4edit, p5edit, p6edit, p7edit)
+                query = 'UPDATE Property SET province=?,street=?,postcode=?,price=?,monthlyIncome=?,lotSize=?,buildDate=? WHERE propertyID=?'
+                c.execute(query, (p1edit,p2edit,p3edit,p4edit,p5edit,p6edit,p7edit,confirmID))
+                conn.commit()
             else:
                 p1 = request.form['province']
                 p2 = request.form['street']
