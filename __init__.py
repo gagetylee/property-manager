@@ -92,6 +92,17 @@ def home():
         c.execute("SELECT propertyID, name, monthlyRent FROM Rents JOIN TenantTemp ON (Rents.tenantID == TenantTemp.tenantID) WHERE propertyID IN (SELECT propertyID FROM Property WHERE landlordID = ?)", (userID, ))
         tenantList = c.fetchall();
 
+        ### THIS QUERY SATISFIES THE DIVIDE REQUIREMENT ###
+        c.execute("""
+                    SELECT name FROM TenantTemp
+                    WHERE tenantID IN (
+                    SELECT tenantID
+                    FROM Rents
+                    GROUP BY tenantID
+                    HAVING COUNT(*) = (SELECT COUNT(*) 
+                    FROM Property WHERE landlordID = ?)) """, (userID,))
+        allPropTenant = c.fetchall();
+
 
         return render_template('home.html',
             user = landlord,
@@ -100,7 +111,8 @@ def home():
             propertyIncomes = totalPropertyIncomes,
             properties = propertyList,
             rentalList = renters,
-            tenants = tenantList
+            tenants = tenantList,
+            tenantFromAllProperties = allPropTenant
         )
     else:
         return redirect(url_for('login'))
