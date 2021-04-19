@@ -42,8 +42,7 @@ propertyTax	DECIMAL(10,2),
 MaintNRepairs	DECIMAL(10,2),
 
 PRIMARY KEY (propertyID, date),
-FOREIGN KEY (propertyID) REFERENCES Property(propertyID),
-FOREIGN KEY (landID) REFERENCES Landlord(landlordID)
+FOREIGN KEY (propertyID) REFERENCES Property(propertyID)
 ON DELETE CASCADE
 );
 
