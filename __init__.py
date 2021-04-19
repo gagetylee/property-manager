@@ -151,16 +151,17 @@ def properties():
             elif "confirm" in request.form:
                 print("confirmed")
                 confirmID = request.form['confirm']
-                p1edit = request.form.get('editprovince', "Province")
-                p2edit = request.form.get('editstreet', "Street")
-                p3edit = request.form.get('editpostcode', "Postal Code")
-                p4edit = request.form.get('editprice', "Price")
-                p5edit = request.form.get('editmonthlyincome', "Monthly Income")
-                p6edit = request.form.get('editlotsize', "Lot Size")
-                p7edit = request.form.get('editbuilddate', "Build Date")
-                print(p1edit, p2edit, p3edit, p4edit, p5edit, p6edit, p7edit)
-                query = 'UPDATE Property SET province=?,street=?,postcode=?,price=?,monthlyIncome=?,lotSize=?,buildDate=? WHERE propertyID=?'
-                c.execute(query, (p1edit,p2edit,p3edit,p4edit,p5edit,p6edit,p7edit,confirmID))
+                p1edit = request.form.get('editprovince', "None")
+                p2edit = request.form.get('editstreet', "None")
+                p3edit = request.form.get('editpostcode', "None")
+                p4edit = request.form.get('editprice', "None")
+                p5edit = request.form.get('editmonthlyincome', "None")
+                p6edit = request.form.get('editlotsize', "None")
+                p7edit = request.form.get('editbuilddate', "None")
+                p8edit = request.form.get('editminimumrent', "None")
+                print(p1edit, p2edit, p3edit, p4edit, p5edit, p6edit, p7edit, p8edit)
+                query = 'UPDATE Property SET province=?,street=?,postcode=?,price=?,monthlyIncome=?,lotSize=?,buildDate=?,minimumrent=? WHERE propertyID=?'
+                c.execute(query, (p1edit,p2edit,p3edit,p4edit,p5edit,p6edit,p7edit,p8edit,confirmID))
                 conn.commit()
             else:
                 p1 = request.form['province']
@@ -170,9 +171,10 @@ def properties():
                 p5 = request.form['monthlyIncome']
                 p6 = request.form['lotSize']
                 p7 = request.form['buildDate']
-                p8 = id
-                query = 'INSERT INTO Property (province, street, postcode, price, monthlyIncome, lotSize, buildDate, landlordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-                c.execute(query, (p1, p2, p3, p4, p5, p6, p7, p8))
+                p8 = request.form['minimumRent']
+                p9 = id
+                query = 'INSERT INTO Property (province, street, postcode, price, monthlyIncome, lotSize, buildDate, minimumRent, landlordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                c.execute(query, (p1, p2, p3, p4, p5, p6, p7, p8, p9))
                 conn.commit()
 
         c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID=P.landlordID AND L.landlordID=?", (str(id),))

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 <article>
-    <h3>Your Properties</h3>
+    <h3>Properties</h3>
     <table>
         <tr>
             <th>ID#</th>
@@ -12,6 +12,7 @@
             <th>Monthly Income</th>
             <th>Lot Size</th>
             <th>Build Date</th>
+            <th>Minimum Rent</th>
         </tr>
         {% for property in data %}
             {% if property.propertyID == edit|int %}
@@ -41,6 +42,9 @@
                     <td>
                       <input class="form-style" type="text" placeholder={{property.buildDate}} name='editbuilddate'>
                     </td>
+                    <td>
+                      <input class="form-style" type="text" placeholder={{property.minimumRent}} name='editminimumrent'>
+                    </td>
                     </form>
                 </tr>
             {% else %}
@@ -53,6 +57,7 @@
                     <td>{{property.monthlyIncome}}</td>
                     <td>{{property.lotSize}}</td>
                     <td>{{property.buildDate}}</td>
+                    <td>{{property.minimumRent}}</td>
                     <form action=properties method="post">
                         <td><button class="button-style" type="submit" value="{{property.propertyID}}" name=edit>Edit</button></td>
                         <td><button class="button-style" type="submit" value="{{property.propertyID}}" name=delete>&cross;</button></td>
@@ -85,6 +90,9 @@
             </td>
             <td>
               <input class="form-style" type="text" placeholder="Build Date" name='buildDate'>
+            </td>
+            <td>
+              <input class="form-style" type="text" placeholder="Minimum Rent" name='minimumRent'>
             </td>
             </form>
         </tr>
