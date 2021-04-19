@@ -11,7 +11,7 @@ drop table if exists Multifamily;
 drop table if exists Spaces;
 drop view if exists TenantTemp;
 drop view if exists PropertyIncome;
-
+drop view if exists PropertyTenantRent;
 CREATE TABLE Landlord (
 landlordID    INTEGER,
 firstName     VARCHAR(50),
@@ -28,6 +28,7 @@ price			   DECIMAL(10,2),
 monthlyIncome	DECIMAL(20,2),
 lotSize		   INTEGER,
 buildDate		YEAR,
+minimumRent	INTEGER(10,2),
 landlordID		INTEGER,
 
 PRIMARY KEY (propertyID)
@@ -124,50 +125,50 @@ INSERT INTO Landlord (firstName, lastName) VALUES ('Thomas','Clark');
 
 
 -- INSERT PROPERTIES --
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('British Columbia','850  Haaglund Rd','V0H1M0','1234.56','5500','1000','2000','1');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('British Columbia','850  Haaglund Rd','V0H1M0','1234.56','5500','1000','2000','1999.99','1');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Saskatchewan','1187  Lillooet Street','S6V1B3','1000000.00','10000','3400','2021','1');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Saskatchewan','1187  Lillooet Street','S6V1B3','1000000.00','10000','3400','2021','1999.99','1');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Ontario','1649  Sheppard Ave','M1S1T4','15003.45','7234','5500','2021','2');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Ontario','1649  Sheppard Ave','M1S1T4','15003.45','7234','5500','2021','1999.99','2');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Quebec','3995  rue Boulay','J0H1Y0','3500.00','3000','1500','1987','3');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Quebec','3995  rue Boulay','J0H1Y0','3500.00','3000','1500','1987','1999.99','3');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Ontario','2934  Balmy Beach Road','N4K2N7','12330.04','3599','3500','2001','2');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Ontario','2934  Balmy Beach Road','N4K2N7','12330.04','3599','3500','2001','1999.99','2');
 
- INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Vancouver','106 588 45th Ave','V5C4G2','20345.72','5599','6000','2019','1');
+ INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Vancouver','106 588 45th Ave','V5C4G2','20345.72','5599','6000','2019','1999.99','1');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Vancouver','563 Union St','V6A2B7','13330.22','3599','3500','1999','6');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Vancouver','563 Union St','V6A2B7','13330.22','3599','3500','1999','1999.99','6');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Vancouver','3008 8th Ave','V6A2A6','19999.99','5900','6000','2017','1');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Vancouver','3008 8th Ave','V6A2A6','19999.99','5900','6000','2017','1999.99','1');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Vancouver','1410 Tolmie St','V6R4B3','10050.00','5000','4599','2018','2');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Vancouver','1410 Tolmie St','V6R4B3','10050.00','5000','4599','2018','1999.99','2');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Vancouver','59080 Battison St','V5R4M8','12330.04','5000','5000','2001','4');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Vancouver','59080 Battison St','V5R4M8','12330.04','5000','5000','2001','1999.99','4');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Vancouver','3308 Ash St','V5C3E3','10099.99','7999','5500','2001','4');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Vancouver','3308 Ash St','V5C3E3','10099.99','7999','5500','2001','1999.99','4');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Ontario','1847 Ross Street','G4T7W2','903332.12','3420','2591','1989','5');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Ontario','1847 Ross Street','G4T7W2','903332.12','3420','2591','1989','1999.99','5');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Saskatchewan','2431 Main St','V4K5K7','23212.14','3192','3310','2011','6');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Saskatchewan','2431 Main St','V4K5K7','23212.14','3192','3310','2011','1999.99','6');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Alberta','9096 Algoma St Road','P7A4T3','12330.38','2345','2510','1999','5');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Alberta','9096 Algoma St Road','P7A4T3','12330.38','2345','2510','1999','1999.99','5');
 
-INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,landlordID)
-VALUES ('Quebec','4610  rue Saint-Antoine','J4K8L7','32905.33','3500','3502','1974','6');
+INSERT INTO Property (province,street,postcode,price,monthlyIncome,lotSize,buildDate,minimumRent,landlordID)
+VALUES ('Quebec','4610  rue Saint-Antoine','J4K8L7','32905.33','3500','3502','1974','1999.99','6');
 
 
 
@@ -228,6 +229,13 @@ VALUES('2', '6');
 INSERT INTO Rents (propertyID, tenantID)
 VALUES('3', '7');
 
+-- person in all landlord 1's properties
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('2', '2');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('6', '2');
+INSERT INTO Rents (propertyID, tenantID)
+VALUES('8', '2');
 
 
 INSERT INTO Retail (propertyID) VALUES ('11');
@@ -283,3 +291,18 @@ WHERE (propertyID, tenantID) IN (
 	SELECT propertyID, tenantID FROM Rents
 )
 GROUP BY propertyID;
+
+
+
+
+CREATE TRIGGER minumum_rent_check
+AFTER UPDATE ON Property
+BEGIN
+UPDATE TenantTemp
+SET monthlyRent = NEW.minimumRent
+WHERE TenantTemp.tenantID IN (
+	SELECT Rents.tenantID FROM Rents
+	WHERE Rents.propertyID = NEW.propertyID
+	AND TenantTemp.monthlyRent < NEW.minimumRent
+);
+END;
