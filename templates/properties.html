@@ -23,12 +23,15 @@
             <td>{{property.monthlyIncome}}</td>
             <td>{{property.lotSize}}</td>
             <td>{{property.buildDate}}</td>
+            <form action=properties method="post">
+              <td><button class="button-style" type="submit" value="{{property.propertyID}}" name=propertyID>&cross;</button></td>
+            </form>
         </tr>
         {% endfor %}
         <tr>
             <form action=properties method="post">
             <td>
-              <input id="add-button" type="submit" value="Add">
+              <input class="button-style" type="submit" value="Add">
             </td>
             <td>
               <input class="property-form" type="text" placeholder="Province" name='province'>

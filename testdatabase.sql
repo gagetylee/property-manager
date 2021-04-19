@@ -31,6 +31,7 @@ buildDate		YEAR,
 landlordID		INTEGER,
 
 PRIMARY KEY (propertyID)
+ON DELETE CASCADE
 );
 CREATE TABLE MonthlyExpenses (
 propertyID	INTEGER NOT NULL,
