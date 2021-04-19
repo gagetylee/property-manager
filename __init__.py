@@ -93,6 +93,20 @@ def home():
         tenantList = c.fetchall();
 
 
+
+        ### THIS QUERY SATISFIES THE DIVIDE REQUIREMENT ###
+        c.execute("""
+                    SELECT name FROM TenantTemp
+                    WHERE tenantID IN (
+                    SELECT tenantID
+                    FROM Rents
+                    GROUP BY tenantID
+                    HAVING COUNT(*) = (SELECT COUNT(*) 
+	                FROM Property WHERE landlordID = ?)) """, (userID,))
+        allPropTenant = c.fetchall();
+
+
+
         return render_template('home.html',
             user = landlord,
             income = totalIncome,
@@ -100,7 +114,8 @@ def home():
             propertyIncomes = totalPropertyIncomes,
             properties = propertyList,
             rentalList = renters,
-            tenants = tenantList
+            tenants = tenantList,
+            tenantFromAllProperties = allPropTenant
         )
     else:
         return redirect(url_for('login'))
@@ -164,7 +179,15 @@ def properties():
     else:
         return redirect(url_for('login'))
 
+@app.route("/tenants")
+def tenants():
 
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = dict_factory
+    c = conn.cursor()
+
+
+    return render_template('tenants.html')
 
 
 # @app.route("/register", methods=['GET', 'POST'])

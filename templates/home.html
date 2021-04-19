@@ -66,8 +66,9 @@
    <h2>Income Breakdown</h2>
    <div class="donut" id="donutchart2" style="height: 500px"></div>
    <div id="property-breakdown">
-      {% for property in properties %}
+      
       <article class="rentInfo">
+         {% for property in properties %}
          <h2>{{property.street}}</h2>
          <ul>
             {% for tenant in tenants %} {% if tenant.propertyID ==
@@ -79,8 +80,14 @@
             <li class="total">Total:<span>${{income.totalIncome}}</span></li>
             {% endif %} {% endfor %}
          </ul>
+         {% endfor %}
+         <br>
+         <h3>Tenants who rent from all properties:</h3>
+         {% for tenant in tenantFromAllProperties %}
+         <p>{{tenant.name}}</p>
+         {% endfor %}
       </article>
-      {% endfor %}
+      
    </div>
 </div>
 {% endblock %}
