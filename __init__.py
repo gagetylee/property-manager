@@ -179,15 +179,7 @@ def properties():
     else:
         return redirect(url_for('login'))
 
-@app.route("/tenants")
-def tenants():
 
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = dict_factory
-    c = conn.cursor()
-
-
-    return render_template('tenants.html')
 
 
 # @app.route("/register", methods=['GET', 'POST'])
