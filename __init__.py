@@ -125,7 +125,7 @@ def info():
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
-        c.execute("SELECT * FROM Landlord WHERE firstName=='"+ username +"'")
+        c.execute("SELECT * FROM Landlord WHERE firstName==?", (username,))
         landlords = c.fetchall()
         return render_template('info.html', data=landlords)
     else:
@@ -141,20 +141,24 @@ def properties():
         c = conn.cursor()
 
         if request.method == "POST":
-            p1 = request.form['province']
-            p2 = request.form['street']
-            p3 = request.form['postcode']
-            p4 = request.form['price']
-            p5 = request.form['monthlyIncome']
-            p6 = request.form['lotSize']
-            p7 = request.form['buildDate']
-            p8 = id
-            query = 'INSERT INTO Property (province, street, postcode, price, monthlyIncome, lotSize, buildDate, landlordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-            c.execute(query, (p1, p2, p3, p4, p5, p6, p7, p8))
-            conn.commit()
-            # test = {'province': p1, 'street': p2, 'postcode': p3, 'price': p4, 'monthlyIncome': p5, 'lotSize': p6, 'buildDate': p7}
+            if "propertyID" in request.form:
+                propertyID = request.form['propertyID']
+                c.execute("DELETE FROM Property WHERE propertyID = ?", (propertyID,))
+                conn.commit()
+            else:
+                p1 = request.form['province']
+                p2 = request.form['street']
+                p3 = request.form['postcode']
+                p4 = request.form['price']
+                p5 = request.form['monthlyIncome']
+                p6 = request.form['lotSize']
+                p7 = request.form['buildDate']
+                p8 = id
+                query = 'INSERT INTO Property (province, street, postcode, price, monthlyIncome, lotSize, buildDate, landlordID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+                c.execute(query, (p1, p2, p3, p4, p5, p6, p7, p8))
+                conn.commit()
 
-        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID==P.landlordID AND L.landlordID=="+str(id))
+        c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID=P.landlordID AND L.landlordID=?", (str(id),))
         properties = c.fetchall()
         return render_template('properties.html', data=properties)
     else:

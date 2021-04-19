@@ -221,7 +221,7 @@ th {
     padding: 5px;
     font-size: 1.2em;
 }
-#add-button {
+.button-style {
   color: white;
   background-color: rgb(84,105,112);
   border: none;
