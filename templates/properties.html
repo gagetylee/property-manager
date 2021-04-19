@@ -12,35 +12,34 @@
             <th>Monthly Income</th>
             <th>Lot Size</th>
             <th>Build Date</th>
-            <th>{{edit}}</th>
         </tr>
         {% for property in data %}
-            {% if property.propertyID == edit %}
+            {% if property.propertyID == edit|int %}
                 <tr>
                     <form action=properties method="post">
                     <td>
-                      <input class="button-style" type="submit" value="Confirm">
+                      <button class="button-style" type="submit" value={{property.propertyID}} name=confirm>Confirm</button>
                     </td>
                     <td>
-                      <input class="form-style" type="text" placeholder={{property.province}} name='province'>
+                      <input class="form-style" type="text" placeholder={{property.province}} name='p1edit'>
                     </td>
                     <td>
-                      <input class="form-style" type="text" placeholder={{property.street}} name='street'>
+                      <input class="form-style" type="text" placeholder={{property.street}} name='p2edit'>
                     </td>
                     <td>
-                      <input class="form-style" type="text" placeholder={{property.postcode}} name='postcode'>
+                      <input class="form-style" type="text" placeholder={{property.postcode}} name='postcodeEdit'>
                     </td>
                     <td>
-                      <input class="form-style" type="text" placeholder={{property.price}} name='price'>
+                      <input class="form-style" type="text" placeholder={{property.price}} name='priceEdit'>
                     </td>
                     <td>
-                      <input class="form-style" type="text" placeholder={{property.monthlyIncome}} name='monthlyIncome'>
+                      <input class="form-style" type="text" placeholder={{property.monthlyIncome}} name='monthlyIncomeEdit'>
                     </td>
                     <td>
-                      <input class="form-style" type="text" placeholder={{property.lotSize}} name='lotSize'>
+                      <input class="form-style" type="text" placeholder={{property.lotSize}} name='lotSizeEdit'>
                     </td>
                     <td>
-                      <input class="form-style" type="text" placeholder={{property.buildDate}} name='buildDate'>
+                      <input class="form-style" type="text" placeholder={{property.buildDate}} name='buildDateEdit'>
                     </td>
                     </form>
                 </tr>

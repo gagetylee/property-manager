@@ -148,6 +148,18 @@ def properties():
                 conn.commit()
             elif "edit" in request.form:
                 editID = request.form['edit']
+            elif "confirm" in request.form:
+                print("confirmed")
+                confirmID = request.form['confirm']
+#                p1Edit = request.form['provinceEdit']
+#                p2Edit = request.form['streetEdit']
+#                p3Edit = request.form['postcodeEdit']
+#                p4Edit = request.form['priceEdit']
+#                p5Edit = request.form['monthlyIncomeEdit']
+#                p6Edit = request.form['lotSizeEdit']
+#                p7Edit = request.form['buildDateEdit']
+#                query = 'UPDATE Property SET province=?,street=?,postcode=?,price=?,monthlyIncome=?,lotSize=?,buildDate=? WHERE landlordID=?'
+#                c.execute("", (p1Edit,p2Edit,p3Edit,p4Edit,p5Edit,p6Edit,p7Edit,confirmID))
             else:
                 p1 = request.form['province']
                 p2 = request.form['street']
