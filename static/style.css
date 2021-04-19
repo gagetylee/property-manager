@@ -233,7 +233,7 @@ th {
   border-radius: 3px;
 }
 
-.property-form {
+.form-style {
     margin-left: -8px;
     width: 11em;
     height: 1.7em;
@@ -242,7 +242,7 @@ th {
     color: white;
     border-color: rgb(15,17,17);
 }
-.property-form::placeholder {
+.form-style::placeholder {
     padding: 5px;
     font-size: 1.2em;
 }

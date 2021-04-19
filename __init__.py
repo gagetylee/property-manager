@@ -93,20 +93,6 @@ def home():
         tenantList = c.fetchall();
 
 
-
-        ### THIS QUERY SATISFIES THE DIVIDE REQUIREMENT ###
-        c.execute("""
-                    SELECT name FROM TenantTemp
-                    WHERE tenantID IN (
-                    SELECT tenantID
-                    FROM Rents
-                    GROUP BY tenantID
-                    HAVING COUNT(*) = (SELECT COUNT(*) 
-	                FROM Property WHERE landlordID = ?)) """, (userID,))
-        allPropTenant = c.fetchall();
-
-
-
         return render_template('home.html',
             user = landlord,
             income = totalIncome,
@@ -114,8 +100,7 @@ def home():
             propertyIncomes = totalPropertyIncomes,
             properties = propertyList,
             rentalList = renters,
-            tenants = tenantList,
-            tenantFromAllProperties = allPropTenant
+            tenants = tenantList
         )
     else:
         return redirect(url_for('login'))
@@ -154,11 +139,28 @@ def properties():
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
+        editID = 0
 
         if request.method == "POST":
-            if "propertyID" in request.form:
-                propertyID = request.form['propertyID']
+            if "delete" in request.form:
+                propertyID = request.form['delete']
                 c.execute("DELETE FROM Property WHERE propertyID = ?", (propertyID,))
+                conn.commit()
+            elif "edit" in request.form:
+                editID = request.form['edit']
+            elif "confirm" in request.form:
+                print("confirmed")
+                confirmID = request.form['confirm']
+                p1edit = request.form.get('editprovince', "Province")
+                p2edit = request.form.get('editstreet', "Street")
+                p3edit = request.form.get('editpostcode', "Postal Code")
+                p4edit = request.form.get('editprice', "Price")
+                p5edit = request.form.get('editmonthlyincome', "Monthly Income")
+                p6edit = request.form.get('editlotsize', "Lot Size")
+                p7edit = request.form.get('editbuilddate', "Build Date")
+                print(p1edit, p2edit, p3edit, p4edit, p5edit, p6edit, p7edit)
+                query = 'UPDATE Property SET province=?,street=?,postcode=?,price=?,monthlyIncome=?,lotSize=?,buildDate=? WHERE propertyID=?'
+                c.execute(query, (p1edit,p2edit,p3edit,p4edit,p5edit,p6edit,p7edit,confirmID))
                 conn.commit()
             else:
                 p1 = request.form['province']
@@ -175,7 +177,7 @@ def properties():
 
         c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID=P.landlordID AND L.landlordID=?", (str(id),))
         properties = c.fetchall()
-        return render_template('properties.html', data=properties)
+        return render_template('properties.html', data=properties, edit=editID)
     else:
         return redirect(url_for('login'))
 

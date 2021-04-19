@@ -295,14 +295,26 @@ GROUP BY propertyID;
 
 
 
-CREATE TRIGGER minumum_rent_check
+CREATE TRIGGER minumum_rent_check_indiv
 AFTER UPDATE ON Property
 BEGIN
-UPDATE TenantTemp
+UPDATE Individual
 SET monthlyRent = NEW.minimumRent
-WHERE TenantTemp.tenantID IN (
+WHERE Individual.tenantID IN (
 	SELECT Rents.tenantID FROM Rents
 	WHERE Rents.propertyID = NEW.propertyID
-	AND TenantTemp.monthlyRent < NEW.minimumRent
+	AND Individual.monthlyRent < NEW.minimumRent
+);
+END;
+
+CREATE TRIGGER minumum_rent_check_company
+AFTER UPDATE ON Property
+BEGIN
+UPDATE Company
+SET monthlyRent = NEW.minimumRent
+WHERE Company.tenantID IN (
+	SELECT Rents.tenantID FROM Rents
+	WHERE Rents.propertyID = NEW.propertyID
+	AND Company.monthlyRent < NEW.minimumRent
 );
 END;
