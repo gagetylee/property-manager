@@ -139,12 +139,15 @@ def properties():
         conn = sqlite3.connect('database.db')
         conn.row_factory = dict_factory
         c = conn.cursor()
+        editID = 0
 
         if request.method == "POST":
-            if "propertyID" in request.form:
-                propertyID = request.form['propertyID']
+            if "delete" in request.form:
+                propertyID = request.form['delete']
                 c.execute("DELETE FROM Property WHERE propertyID = ?", (propertyID,))
                 conn.commit()
+            elif "edit" in request.form:
+                editID = request.form['edit']
             else:
                 p1 = request.form['province']
                 p2 = request.form['street']
@@ -160,7 +163,7 @@ def properties():
 
         c.execute("SELECT * FROM Landlord L, Property P WHERE L.landlordID=P.landlordID AND L.landlordID=?", (str(id),))
         properties = c.fetchall()
-        return render_template('properties.html', data=properties)
+        return render_template('properties.html', data=properties, edit=editID)
     else:
         return redirect(url_for('login'))
 
