@@ -31,7 +31,6 @@ buildDate		YEAR,
 landlordID		INTEGER,
 
 PRIMARY KEY (propertyID)
-FOREIGN KEY (lanlordID) REFERENCES Landlord(landlordID)
 ON DELETE CASCADE
 );
 CREATE TABLE MonthlyExpenses (
